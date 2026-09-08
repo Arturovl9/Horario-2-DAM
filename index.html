@@ -10,7 +10,7 @@
 
         <div class="horario-container">
             <h1>Horario DAM</h1>
-            <p class="subtitle">1º AÑO </p>
+            <p class="subtitle">2º AÑO </p>
 
             <!--
                 Tabla "maestra": aquí vive TODA la información del horario.
@@ -93,9 +93,17 @@
                 </tbody>
             </table>
             
-            <h2>Asignaturas y Siglas (2º DAM)</h2>
+            <!--
+                Contenedor de la vista móvil. Empieza vacío: el script de más
+                abajo lo rellena con un bloque por cada día. El CSS decide
+                cuándo se muestra este div y cuándo se muestra la tabla
+                (ver el @media en styles.css).
+            -->
+            <div id="horario-movil" class="horario-movil"></div>
 
-            <table>
+            <h1 class="siglas-titulo">Asignaturas y Siglas (2º DAM)</h1>
+
+            <table class="siglas-table">
                 <thead>
                     <tr>
                         <th>Siglas</th>
@@ -142,13 +150,6 @@
                 </tbody>
             </table>
 
-            <!--
-                Contenedor de la vista móvil. Empieza vacío: el script de más
-                abajo lo rellena con un bloque por cada día. El CSS decide
-                cuándo se muestra este div y cuándo se muestra la tabla
-                (ver el @media en styles.css).
-            -->
-            <div id="horario-movil" class="horario-movil"></div>
         </div>
 
         <script>

@@ -55,8 +55,12 @@
             font-size: 1.1em;
         }
 
+        .siglas-titulo {
+            margin-top: 30px;
+        }
+
 /* --------------- Estilos de la Tabla --------------- */
-    .horario-table {
+    .horario-table, .siglas-table {
         min-width: 700px; 
         width: 100%;
         border-collapse: separate; 
@@ -66,18 +70,25 @@
     }
 
     .horario-table th, 
-    .horario-table td {
+    .horario-table td,
+    .siglas-table th,
+    .siglas-table td {
         padding: 10px 8px; /* Reducimos padding para ahorrar espacio */
         text-align: center;
         border: 1px solid var(--color-border);
         font-weight: 500;
         transition: background-color 0.3s ease;
         font-size: 0.9em; /* Reducimos ligeramente el tamaño de fuente */
+    }
+
+    .horario-table th,
+    .horario-table td {
         white-space: nowrap; /* Evita que los nombres de asignaturas se rompan */
     }
 
     /* Encabezados */
-        .horario-table th {
+        .horario-table th,
+        .siglas-table th {
             background-color: #e6e6fa; 
             color: var(--color-text-dark);
             font-weight: bold;
@@ -106,7 +117,8 @@
         .OPT { background-color: var(--OPT); }
 
     /* Efecto Hover para interactividad */
-        .horario-table td:not(.time-slot):hover {
+        .horario-table td:not(.time-slot):hover,
+        .siglas-table tbody td:hover {
             filter: brightness(0.95);
             cursor: pointer;
         }
@@ -123,10 +135,17 @@
         }
 
     /* Ajustes de bordes redondeados (se mantienen) */
-        .horario-table thead tr:first-child th:first-child { border-top-left-radius: 10px; }
-        .horario-table thead tr:first-child th:last-child { border-top-right-radius: 10px; }
-        .horario-table tbody tr:last-child td:first-child { border-bottom-left-radius: 10px; }
-        .horario-table tbody tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+        .horario-table thead tr:first-child th:first-child,
+        .siglas-table thead tr:first-child th:first-child { border-top-left-radius: 10px; }
+
+        .horario-table thead tr:first-child th:last-child,
+        .siglas-table thead tr:first-child th:last-child { border-top-right-radius: 10px; }
+
+        .horario-table tbody tr:last-child td:first-child,
+        .siglas-table tbody tr:last-child td:first-child { border-bottom-left-radius: 10px; }
+
+        .horario-table tbody tr:last-child td:last-child,
+        .siglas-table tbody tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 
 /* --------------- Vista móvil: bloques por día (rellenados por JS) --------------- */
 /*
@@ -144,8 +163,13 @@
 
     @media (max-width: 750px) {
 
+        .horario-container {
+            max-width: 100%;
+            padding: 15px;
+        }
+
         /* En pantallas pequeñas hacemos el cambio contrario:
-           escondemos la tabla de escritorio... */
+           escondemos la tabla de horario de escritorio... */
         .horario-table {
             display: none;
         }
@@ -154,6 +178,18 @@
            (el que el JS ya ha rellenado). */
         .horario-movil {
             display: block;
+            margin-bottom: 25px;
+        }
+
+        /* Hacemos la tabla de siglas completamente responsiva adaptando su min-width */
+        .siglas-table {
+            min-width: 100%;
+        }
+
+        .siglas-table td, 
+        .siglas-table th {
+            white-space: normal; /* Permite que el texto largo se ajuste si es necesario */
+            font-size: 0.85em;
         }
 
         /* Cada día es una "tarjeta" independiente con borde redondeado */
