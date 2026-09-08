@@ -126,45 +126,93 @@
         .horario-table tbody tr:last-child td:first-child { border-bottom-left-radius: 10px; }
         .horario-table tbody tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 
-/* --------------- 3. Media Queries para Dispositivos Móviles --------------- */
+/* --------------- Vista móvil: bloques por día (rellenados por JS) --------------- */
+/*
+ * IMPORTANTE: aquí el CSS solo decide QUÉ SE VE y CÓMO SE PINTA.
+ * Quién genera el contenido (los bloques de cada día) es el <script>
+ * de index.html (función construirVistaMovilPorDia). Este bloque de CSS
+ * no crea ningún elemento, solo da estilo a los que el JS va a insertar.
+ */
 
-/* Estilos aplicados a pantallas pequeñas (típicamente móviles, menos de 600px) */
-    @media (max-width: 600px) {
-        /* Reducimos el padding general en el cuerpo y contenedor */
-        body {
-            padding: 10px;
-        }
-        
-        .horario-container {
-            padding: 15px;
-            border-radius: 5px;
-            /* El 'overflow-x: auto' aquí es clave */
+    /* Por defecto (escritorio) el contenedor de la vista móvil está
+       vacío y oculto: solo la tabla normal es visible. */
+    .horario-movil {
+        display: none;
+    }
+
+    @media (max-width: 750px) {
+
+        /* En pantallas pequeñas hacemos el cambio contrario:
+           escondemos la tabla de escritorio... */
+        .horario-table {
+            display: none;
         }
 
-        h1 {
-            font-size: 1.5em; /* Hacemos el título más pequeño */
+        /* ...y mostramos el contenedor con las tarjetas por día
+           (el que el JS ya ha rellenado). */
+        .horario-movil {
+            display: block;
         }
 
-        .subtitle {
+        /* Cada día es una "tarjeta" independiente con borde redondeado */
+        .dia-bloque {
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 16px; /* separación entre el bloque de un día y el siguiente */
+        }
+
+        /* Cabecera de cada tarjeta: el nombre del día (Lunes, Martes...) */
+        .dia-titulo {
+            margin: 0;
+            padding: 10px 14px;
+            background-color: #e6e6fa; /* mismo lila que la cabecera de la tabla de escritorio */
+            color: var(--color-text-dark);
             font-size: 1em;
-            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Reducimos aún más el padding y fuente de la tabla en móvil */
-        .horario-table th, 
-        .horario-table td {
-            padding: 8px 5px; 
-            font-size: 0.8em; 
-        }
-        
-        /* Aseguramos que la columna de hora se vea bien */
-        .time-slot {
-            width: 80px; 
-            font-size: 0.85em; 
-        }
-        
-        .recreo-row td {
-            padding: 10px;
+        /* Cada "franja" es una fila dentro de la tarjeta: hora + asignatura.
+           El JS crea un <div class="franja"> por cada hora de ese día. */
+        .franja {
+            display: flex;                 /* hora y asignatura en la misma línea */
+            justify-content: space-between; /* hora a la izquierda, asignatura a la derecha */
+            align-items: center;
+            padding: 10px 14px;
+            border-top: 1px solid var(--color-border); /* separa una franja de la siguiente */
             font-size: 0.9em;
+        }
+
+        /* Texto de la hora dentro de la franja (ej: "15:30 16:25") */
+        .franja-hora {
+            font-weight: bold;
+            color: #666;
+            white-space: nowrap;
+            margin-right: 12px;
+        }
+
+        /* Texto de la asignatura + profesor dentro de la franja */
+        .franja-asignatura {
+            text-align: right;
+            flex: 1; /* ocupa el espacio restante para empujar el texto a la derecha */
+        }
+
+        /* El JS añade a cada .franja la misma clase que tenía la celda
+           original en la tabla (LMSGI, SOST, ED...), así que con estas
+           reglas conseguimos que el color de cada asignatura sea IDÉNTICO
+           en escritorio y en móvil, sin duplicar colores a mano. */
+        .franja.LMSGI { background-color: var(--LMSGI); }
+        .franja.SI { background-color: var(--SI); }
+        .franja.ED { background-color: var(--ED); }
+        .franja.BD { background-color: var(--BD); }
+        .franja.PROG { background-color: var(--PROG); }
+        .franja.DASP { background-color: var(--DASP); }
+        .franja.SOST { background-color: var(--SOST); }
+        .franja.IPE-I { background-color: var(--IPE-I); }
+
+        .dia-bloque:last-child {
+            margin-bottom: 0;
         }
     }
