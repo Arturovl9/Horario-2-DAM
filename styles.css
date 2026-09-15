@@ -7,7 +7,7 @@
             --color-text-dark: #333;
             --color-border: #ddd;
             --IPGS: #A4C2F4 ;
-            --ADA: #a8dadc;
+            --AD: #a8dadc;
             --DEINT: #FCE5CD;
             --PIDAMU: #EFE5FD;
             --PMDMO: #FFF2CC;
@@ -114,7 +114,7 @@
 
     /* Filas de Asignaturas */
         .IPGS { background-color: var(--IPGS); }
-        .ADA { background-color: var(--ADA); }
+        .AD { background-color: var(--AD); }
         .DEINT { background-color: var(--DEINT); }
         .PMDMO { background-color: var(--PMDMO); }
         .PSP { background-color: var(--PSP); }
@@ -250,7 +250,7 @@
            en escritorio y en móvil, sin duplicar colores a mano. */
         
         .franja.IPGS { background-color: var(--IPGS); }
-        .franja.ADA { background-color: var(--ADA); }
+        .franja.AD { background-color: var(--AD); }
         .franja.DEINT { background-color: var(--DEINT); }
         .franja.PMDMO { background-color: var(--PMDMO); }
         .franja.PSP { background-color: var(--PSP); }
