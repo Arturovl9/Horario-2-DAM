@@ -10,7 +10,7 @@
             --AD: #a8dadc;
             --DEINT: #FCE5CD;
             --PIDAMU: #EFE5FD;
-            --PMDMO: #FFF2CC;
+            --PMDM: #FFF2CC;
             --PSP: #F8CECC;
             --SGE: #D4E6F1;
             --OPT: #E0F2F1;
@@ -116,7 +116,7 @@
         .IPGS { background-color: var(--IPGS); }
         .AD { background-color: var(--AD); }
         .DEINT { background-color: var(--DEINT); }
-        .PMDMO { background-color: var(--PMDMO); }
+        .PMDM { background-color: var(--PMDM); }
         .PSP { background-color: var(--PSP); }
         .SGE { background-color: var(--SGE); }
         .PIDAMU { background-color: var(--PIDAMU); }
@@ -264,7 +264,7 @@
         .franja.IPGS { background-color: var(--IPGS); }
         .franja.AD { background-color: var(--AD); }
         .franja.DEINT { background-color: var(--DEINT); }
-        .franja.PMDMO { background-color: var(--PMDMO); }
+        .franja.PMDM { background-color: var(--PMDM); }
         .franja.PSP { background-color: var(--PSP); }
         .franja.SGE { background-color: var(--SGE); }
         .franja.PIDAMU { background-color: var(--PIDAMU); }
