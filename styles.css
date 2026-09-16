@@ -168,7 +168,19 @@
         display: none;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: 1200px) {
+        .horario-container {
+            max-width: 80%;
+            padding: 7.5px;
+        }
+
+        .horario-table th, .horario-table td, .siglas-table th, .siglas-table td {
+            padding: 0.5em 0.3em; /* Reducimos padding para ahorrar espacio */
+            font-size: 0.8em; /* Reducimos ligeramente el tamaño de fuente */
+        }
+    }
+
+    @media (max-width: 925px) {
 
         .horario-container {
             max-width: 100%;
