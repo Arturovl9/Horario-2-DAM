@@ -8,7 +8,7 @@
             --color-border: #ddd;
             --IPGS: #A4C2F4 ;
             --AD: #a8dadc;
-            --DEINT: #FCE5CD;
+            --DI: #FCE5CD;
             --PI: #EFE5FD;
             --PMDM: #FFF2CC;
             --PSP: #F8CECC;
@@ -115,7 +115,7 @@
     /* Filas de Asignaturas */
         .IPGS { background-color: var(--IPGS); }
         .AD { background-color: var(--AD); }
-        .DEINT { background-color: var(--DEINT); }
+        .DI { background-color: var(--DI); }
         .PMDM { background-color: var(--PMDM); }
         .PSP { background-color: var(--PSP); }
         .SGE { background-color: var(--SGE); }
@@ -263,7 +263,7 @@
         
         .franja.IPGS { background-color: var(--IPGS); }
         .franja.AD { background-color: var(--AD); }
-        .franja.DEINT { background-color: var(--DEINT); }
+        .franja.DI { background-color: var(--DI); }
         .franja.PMDM { background-color: var(--PMDM); }
         .franja.PSP { background-color: var(--PSP); }
         .franja.SGE { background-color: var(--SGE); }
