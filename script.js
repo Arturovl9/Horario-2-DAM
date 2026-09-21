@@ -112,15 +112,19 @@
                     { fecha: '2027-01-26', hora: '16:25', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
                     { fecha: '2027-02-16', hora: '16:25', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }
                 ],
-                IPGS: [],
+                IPGS: [
+                    { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
+                    { fecha: '2026-11-18', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
+                    { fecha: '2026-13-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
+                ],
                 'IPE-II': [],
                 PMDM: [
-                    { fecha: '2026-10-21', hora: '16:25', titulo: 'Examen UT1 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-11-18', hora: '16:25', titulo: 'Examen UT2 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-09', hora: '16:25', titulo: 'Examen UT3 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-13-16', hora: '16:25', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-01-27', hora: '16:25', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-02-17', hora: '16:25', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }                    
+                    { fecha: '2026-10-21', hora: '17:20', titulo: 'Examen UT1 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-11-18', hora: '17:20', titulo: 'Examen UT2 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-09', hora: '17:20', titulo: 'Examen UT3 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-13-16', hora: '17:20', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-01-27', hora: '17:20', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-02-17', hora: '17:20', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }                    
                 ],
                 PSP: [],
                 PI: [],
