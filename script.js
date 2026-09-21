@@ -93,3 +93,106 @@
             // ...y se vuelve a ejecutar cada vez que cambia el tamaño de la ventana
             // (por ejemplo, si giras el móvil o pasas de escritorio a móvil).
             window.addEventListener('resize', construirVistaMovilPorDia);
+        
+            /* =====================================================
+            DATOS DE LOS EXÁMENES  <-- AQUÍ AÑADES TUS EXÁMENES
+            La clave es la sigla (igual que la clase CSS de la asignatura).
+            Formato de fecha: 'AAAA-MM-DD'. "hora", "tipo" y "notas" son opcionales.
+            ===================================================== */
+            const examenes = {
+                AD: [
+                    
+                    
+                ],
+                DI: [
+                    { fecha: '2026-10-13', hora: '16:25', titulo: 'Examen UT1 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-11-10', hora: '16:25', titulo: 'Examen UT2 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-01', hora: '16:25', titulo: 'Examen UT3 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-13-15', hora: '16:25', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-01-26', hora: '16:25', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-02-16', hora: '16:25', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }
+                ],
+                IPGS: [],
+                'IPE-II': [],
+                PMDM: [
+                    { fecha: '2026-10-21', hora: '16:25', titulo: 'Examen UT1 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-11-18', hora: '16:25', titulo: 'Examen UT2 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-09', hora: '16:25', titulo: 'Examen UT3 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-13-16', hora: '16:25', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-01-27', hora: '16:25', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-02-17', hora: '16:25', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }                    
+                ],
+                PSP: [],
+                PI: [],
+                OPT: [],
+                SGE: []
+            };
+
+            /* Nombre completo y profesor de cada módulo */
+            const modulos = {
+                IPGS:     { nombre: 'Inglés profesional GS', profesor: 'Alexandra Gámez Villegas' },
+                'IPE-II': { nombre: 'Itinerario personal para la empleabilidad II', profesor: 'María Lourdes Galeano Criado' },
+                SGE:      { nombre: 'Sistemas de gestión empresarial', profesor: 'Jaime Pérez Cano' },
+                AD:       { nombre: 'Acceso a datos', profesor: 'Rafael Arilla Blázquez' },
+                PSP:      { nombre: 'Programación de servicios y procesos', profesor: 'Rafael Arilla Blázquez' },
+                DI:       { nombre: 'Desarrollo de interfaces', profesor: 'José Alberto Cañete Roldán' },
+                PMDM:     { nombre: 'Programación multimedia y dispositivos móviles', profesor: 'José Alberto Cañete Roldán' },
+                PI:       { nombre: 'Proyecto Intermodular', profesor: 'Santiago Martín Palomo García' },
+                OPT:      { nombre: 'Optativa - Desarrollo Aplicaciones Web con Angular', profesor: 'Santiago Martín Palomo García' }
+            };
+
+            /* Evita que un texto con < o & rompa el HTML */
+            function escaparHTML(texto) {
+                const d = document.createElement('div');
+                d.textContent = texto;
+                return d.innerHTML;
+            }
+
+            /* '2026-10-20' -> 'martes, 20 de octubre de 2026' */
+            function formatearFecha(iso) {
+                const [a, m, d] = iso.split('-').map(Number);
+                return new Date(a, m - 1, d).toLocaleDateString('es-ES', {
+                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                });
+            }
+
+            function abrirPopup(sigla) {
+                const modulo = modulos[sigla];
+                if (!modulo) return;
+
+                document.getElementById('popup-titulo').textContent = `${sigla} · ${modulo.nombre}`;
+                document.getElementById('popup-profesor').textContent = `Profesor/a: ${modulo.profesor}`;
+
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+
+                // Copiamos y ordenamos por fecha (los más próximos primero)
+                const lista = [...(examenes[sigla] || [])].sort((a, b) => a.fecha.localeCompare(b.fecha));
+                const cont = document.getElementById('popup-examenes');
+
+                if (lista.length === 0) {
+                    cont.innerHTML = '<p class="sin-examenes">No hay exámenes añadidos para esta asignatura.</p>';
+                } else {
+                    cont.innerHTML = '<ul class="lista-examenes">' + lista.map(ex => {
+                        const [a, m, d] = ex.fecha.split('-').map(Number);
+                        const pasado = new Date(a, m - 1, d) < hoy;
+                        return `
+                            <li class="examen ${pasado ? 'pasado' : ''}">
+                                <strong>${escaparHTML(ex.titulo)}</strong>
+                                <span class="examen-fecha">${formatearFecha(ex.fecha)}${ex.hora ? ' · ' + escaparHTML(ex.hora) : ''}</span>
+                                ${ex.tipo ? `<span class="examen-tipo">${escaparHTML(ex.tipo)}</span>` : ''}
+                                ${ex.notas ? `<span class="examen-notas">${escaparHTML(ex.notas)}</span>` : ''}
+                                ${pasado ? '<span class="examen-tag">Realizado</span>' : ''}
+                            </li>`;
+                    }).join('') + '</ul>';
+                }
+
+                document.getElementById('overlay').style.display = 'flex';
+            }
+
+            function cerrarPopup() {
+                document.getElementById('overlay').style.display = 'none';
+            }
+
+            // Cerrar con la tecla Escape
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarPopup(); });
