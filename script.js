@@ -115,7 +115,7 @@
                 IPGS: [
                     { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
                     { fecha: '2026-11-18', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
-                    { fecha: '2026-13-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
+                    { fecha: '2026-12-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
                 ],
                 'IPE-II': [],
                 PMDM: [
