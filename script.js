@@ -11,14 +11,6 @@
 
                 // 1) Cogemos la tabla real del HTML (la que ve el usuario en escritorio)
                 const tabla = document.querySelector('.horario-table');
-                const contenedorPrevio = document.getElementById('horario-movil');
-
-                // Si esta página no tiene tabla de horario o contenedor móvil
-                // (por ejemplo, la página de "Asignaturas/Siglas" o la de
-                // "Calendario Exámenes"), no hacemos nada. Sin este "return",
-                // el script se paraba aquí con un error y todo el código de
-                // después (modulos, abrirPopup...) nunca llegaba a ejecutarse.
-                if (!tabla || !contenedorPrevio) return;
 
                 // 2) Sacamos los nombres de los días desde la cabecera <th>.
                 //    headerCells = [Hora, Lunes, Martes, Miércoles, Jueves, Viernes]
@@ -102,6 +94,44 @@
             // (por ejemplo, si giras el móvil o pasas de escritorio a móvil).
             window.addEventListener('resize', construirVistaMovilPorDia);
         
+            /* =====================================================
+            DATOS DE LOS EXÁMENES  <-- AQUÍ AÑADES TUS EXÁMENES
+            La clave es la sigla (igual que la clase CSS de la asignatura).
+            Formato de fecha: 'AAAA-MM-DD'. "hora", "tipo" y "notas" son opcionales.
+            ===================================================== */
+            const examenes = {
+                AD: [
+                    
+                    
+                ],
+                DI: [
+                    { fecha: '2026-10-13', hora: '16:25', titulo: 'Examen UT1 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-11-10', hora: '16:25', titulo: 'Examen UT2 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-01', hora: '16:25', titulo: 'Examen UT3 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-13-15', hora: '16:25', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-01-26', hora: '16:25', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-02-16', hora: '16:25', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }
+                ],
+                IPGS: [
+                    { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
+                    { fecha: '2026-11-18', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
+                    { fecha: '2026-13-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
+                ],
+                'IPE-II': [],
+                PMDM: [
+                    { fecha: '2026-10-21', hora: '17:20', titulo: 'Examen UT1 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-11-18', hora: '17:20', titulo: 'Examen UT2 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-09', hora: '17:20', titulo: 'Examen UT3 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-13-16', hora: '17:20', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-01-27', hora: '17:20', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-02-17', hora: '17:20', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }                    
+                ],
+                PSP: [],
+                PI: [],
+                OPT: [],
+                SGE: []
+            };
+
             /* Nombre completo y profesor de cada módulo */
             const modulos = {
                 IPGS:     { nombre: 'Inglés profesional GS', profesor: 'Alexandra Gámez Villegas' },
@@ -199,8 +229,8 @@
                         const [a, m, d] = ex.fecha.split('-').map(Number);
                         const pasado = new Date(a, m - 1, d) < hoy;
                         return `
-                            <li class="examen ${pasado ? 'pasado' : ''}" style="border-left-color:var(--${sigla})">
-                                <strong>${[].concat(ex.titulo).map(escaparHTML).join('<br>')}</strong>
+                            <li class="examen ${pasado ? 'pasado' : ''}">
+                                <strong>${escaparHTML(ex.titulo)}</strong>
                                 <span class="examen-fecha">${formatearFecha(ex.fecha)}${ex.hora ? ' · ' + escaparHTML(ex.hora) : ''}</span>
                                 ${ex.tipo ? `<span class="examen-tipo">${escaparHTML(ex.tipo)}</span>` : ''}
                                 ${pasado ? '<span class="examen-tag">Realizado</span>' : ''}
