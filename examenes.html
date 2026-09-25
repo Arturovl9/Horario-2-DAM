@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calendario de Exámenes - 2º DAM</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+
+        <div class="horario-container">
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Horario</a></li>
+                        <li><a href="asignaturas.html">Asignatura/Siglas</a></li>
+                        <li><a href="examenes.html">Calendario Exámenes</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <h1>Calendario de Exámenes</h1>
+            <p class="subtitle">2º DAM · Curso 2026/2027</p>
+
+            <!-- Leyenda de colores -->
+            <div class="leyenda">
+                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--OPT)"></span>Optativa</span>
+                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--AD)"></span>Acceso a Datos</span>
+                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--IPGS)"></span>Ingles Profesional GS</span>
+                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--DI)"></span>Desarrollo de Interfaces</span>
+                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--SGE)"></span>Sistema de Gestión Empresarial</span>
+                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--PSP)"></span>Promación de Servicios y procesos</span>
+                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--IPE-II)"></span>Itinerario personal para la empleabilidad II</span>
+                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--PMDM)"></span>Programación multimedia y dispositivos móviles</span>
+                <span class="leyenda-item"><span class="leyenda-color" style="background-color:#9a031e"></span>Examen Final</span>
+            </div>
+
+            <!--
+                Calendario 100% estático (HTML + CSS Grid): cada tarjeta de
+                semana y cada bloque de examen está escrito aquí a mano.
+                Para añadir un examen nuevo, copia un ".examen-bloque" de
+                ejemplo dentro de la semana que corresponda y ajusta:
+                - grid-column: 2=Lunes, 3=Martes, 4=Miércoles, 5=Jueves, 6=Viernes
+                - grid-row: la franja (1 a 6) donde empieza / span nº de franjas que ocupa
+                - la clase (PMDM, DI, PI... o "final"/"presentacion" para el color)
+            -->
+            <div class="examenes-calendario">
+                <h2 class="trimestre-titulo">1er Trimestre</h2>
+                <div class="semanas-grid">
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 1</div>
+                        <div class="semana-fechas">
+                            <span></span><span>14/9</span><span>15/9</span><span>16/9</span><span>17/9</span><span>18/9</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 2</div>
+                        <div class="semana-fechas">
+                            <span></span><span>21/9</span><span>22/9</span><span>23/9</span><span>24/9</span><span>25/9</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 3</div>
+                        <div class="semana-fechas">
+                            <span></span><span>28/9</span><span>29/9</span><span>30/9</span><span>1/10</span><span>2/10</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="examen-bloque PI" style="grid-column:5;grid-row:2 / span 2" title="Examen Tema 1 - ¿Qué es un Proyecto? (17:20)">PI</div>
+                            <div class="examen-bloque OPT" style="grid-column:6;grid-row:1 / span 3" title="Examen Tema 1 - Introducción a TypeScript y Primeros Pasos (17:20)">OPT</div>
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="semanas-grid">
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 4</div>
+                        <div class="semana-fechas">
+                            <span></span><span>5/10</span><span>6/10</span><span>7/10</span><span>8/10</span><span>9/10</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 5</div>
+                        <div class="semana-fechas">
+                            <span></span><span>12/10</span><span>13/10</span><span>14/10</span><span>15/10</span><span>16/10</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="examen-bloque PMDM" style="grid-column:3;grid-row:2 / span 5" title="Examen Tema 1 (17:20)">PMDM</div>
+                            <div class="examen-bloque presentacion" style="grid-column:4;grid-row:1 / span 2" title="Presentación (15:30)">Pres. Inglés</div>
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 6</div>
+                        <div class="semana-fechas">
+                            <span></span><span>19/10</span><span>20/10</span><span>21/10</span><span>22/10</span><span>23/10</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="examen-bloque DI" style="grid-column:4;grid-row:3 / span 4" title="Examen Tema 1 (16:25)">DI</div>
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+                <div class="semanas-grid">
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 7</div>
+                        <div class="semana-fechas">
+                            <span></span><span>26/10</span><span>27/10</span><span>28/10</span><span>29/10</span><span>30/10</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 8</div>
+                        <div class="semana-fechas">
+                            <span></span><span>2/11</span><span>3/11</span><span>4/11</span><span>5/11</span><span>6/11</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 9</div>
+                        <div class="semana-fechas">
+                            <span></span><span>9/11</span><span>10/11</span><span>11/11</span><span>12/11</span><span>13/11</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="examen-bloque PMDM" style="grid-column:3;grid-row:2 / span 5" title="Examen Tema 2 (17:20)">PMDM</div>
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="semanas-grid">
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 10</div>
+                        <div class="semana-fechas">
+                            <span></span><span>16/11</span><span>17/11</span><span>18/11</span><span>19/11</span><span>20/11</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="examen-bloque DI" style="grid-column:4;grid-row:3 / span 4" title="Examen Tema 2 (16:25)">DI</div>
+                            <div class="examen-bloque presentacion" style="grid-column:4;grid-row:1 / span 2" title="Presentación (15:30)">Pres. Inglés</div>
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 11</div>
+                        <div class="semana-fechas">
+                            <span></span><span>23/11</span><span>24/11</span><span>25/11</span><span>26/11</span><span>27/11</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 12</div>
+                        <div class="semana-fechas">
+                            <span></span><span>30/11</span><span>1/12</span><span>2/12</span><span>3/12</span><span>4/12</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        <div class="examen-bloque PMDM" style="grid-column:3;grid-row:2 / span 2" title="Examen Tema 3 (17:20)">PMDM</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="semanas-grid">
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 13</div>
+                        <div class="semana-fechas">
+                            <span></span><span>7/12</span><span>8/12</span><span>9/12</span><span>10/12</span><span>11/12</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="examen-bloque DI" style="grid-column:4;grid-row:3 / span 4" title="Examen Tema 3 (16:25)">DI</div>
+                            <div class="examen-bloque presentacion" style="grid-column:4;grid-row:1 / span 2" title="Presentación (15:30)">Pres. Inglés</div>
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 14</div>
+                        <div class="semana-fechas">
+                            <span></span><span>14/12</span><span>15/12</span><span>16/12</span><span>17/12</span><span>18/12</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="examen-bloque final" style="grid-column:3;grid-row:2 / span 5" title="Examen Final (17:20)">PMDM Final</div>
+                            <div class="examen-bloque final" style="grid-column:4;grid-row:3 / span 4" title="Examen Final (16:25)">DI Final</div>
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 15</div>
+                        <div class="semana-fechas">
+                            <span></span><span>21/12</span><span>22/12</span><span>23/12</span><span>24/12</span><span>25/12</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="trimestre-titulo">2º Trimestre</h2>
+                <div class="semanas-grid">
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 16</div>
+                        <div class="semana-fechas">
+                            <span></span><span>11/1</span><span>12/1</span><span>13/1</span><span>14/1</span><span>15/1</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 17</div>
+                        <div class="semana-fechas">
+                            <span></span><span>18/1</span><span>19/1</span><span>20/1</span><span>21/1</span><span>22/1</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 18</div>
+                        <div class="semana-fechas">
+                            <span></span><span>25/1</span><span>26/1</span><span>27/1</span><span>28/1</span><span>29/1</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="examen-bloque PMDM" style="grid-column:3;grid-row:2 / span 5" title="Examen Tema 4 y 5 (17:20)">PMDM</div>
+                            <div class="examen-bloque DI" style="grid-column:4;grid-row:3 / span 4" title="Examen Tema 4 (16:25)">DI</div>
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 19</div>
+                        <div class="semana-fechas">
+                            <span></span><span>1/2</span><span>2/2</span><span>3/2</span><span>4/2</span><span>5/2</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 20</div>
+                        <div class="semana-fechas">
+                            <span></span><span>8/2</span><span>9/2</span><span>10/2</span><span>11/2</span><span>12/2</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 21</div>
+                        <div class="semana-fechas">
+                            <span></span><span>15/2</span><span>16/2</span><span>17/2</span><span>18/2</span><span>19/2</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="examen-bloque final" style="grid-column:3;grid-row:2 / span 5" title="Examen Tema 6 y Final (17:20)">PMDM Final</div>
+                            <div class="examen-bloque final" style="grid-column:4;grid-row:3 / span 4" title="Examen Tema 5 y Final (16:25)">DI Final</div>    <div class="hora-label" style="grid-row:1">1 Hora</div>
+                            <div class="hora-label" style="grid-row:2">2 Hora</div>
+                            <div class="hora-label" style="grid-row:3">3 Hora</div>
+                            <div class="hora-label" style="grid-row:4">4 Hora</div>
+                            <div class="hora-label" style="grid-row:5">5 Hora</div>
+                            <div class="hora-label" style="grid-row:6">6 Hora</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <script src="script.js"></script>
+
+    </body>
+</html>

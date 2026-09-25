@@ -25,6 +25,7 @@
             cursor: pointer;
             font-size: 20px;
         }   
+
     /* Definición de Colores Pasteles */
         :root {
             /* ... (Tus variables de color se mantienen) ... */
@@ -73,6 +74,41 @@
             width: 100%;
             height: 100%;
         }
+    /* ... Menu de Navegación ... */
+        header {
+            background: #B5E1FD;
+            border-radius: 10px;
+            width: fit-content;
+            margin: 0 auto;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 10px 15px;
+            color: #05639D;
+            text-decoration: none;
+        }
+
+        nav ul li:hover {
+            background: #034771;
+            border-radius: 10px;
+        }
+
+        nav ul li a:hover{color: #B5E1FD;}
+        
     /* ... (Tus estilos para h1 y subtitle se mantienen) ... */
         h1 {
             text-align: center;
@@ -301,18 +337,95 @@
         }
     }
 
-/* --------------- Popup de exámenes --------------- */
-.popup h2 { margin: 0 24px 4px 0; font-size: 1.2em; color: #4a4a68; }
+/* --------------- Popup de asignaturas --------------- */
+.popup h2 {
+    margin: -20px -24px 14px -24px;
+    padding: 16px 40px 16px 24px;
+    font-size: 1.15em;
+    color: #333;
+    border-radius: 10px 10px 0 0;
+    transition: background-color 0.2s ease;
+}
 .popup-profesor { margin: 0 0 16px; color: #888; font-size: 0.9em; }
 .sin-examenes { color: #888; font-style: italic; }
 .lista-examenes { list-style: none; margin: 0; padding: 0; }
 .examen {
     display: flex; flex-direction: column; gap: 2px;
     padding: 10px 12px; margin-bottom: 8px;
-    border-left: 4px solid #a8dadc; border-radius: 6px;
+    border-left: 4px solid #ccc; border-radius: 6px;
     background: var(--color-bg-light);
 }
 .examen-fecha { font-size: 0.9em; text-transform: capitalize; color: #555; }
-.examen-tipo, .examen-notas { font-size: 0.85em; color: #777; }
-.examen.pasado { opacity: 0.55; border-left-color: #ccc; }
+.examen-tipo { font-size: 0.85em; color: #777; }
+.examen.pasado { opacity: 0.55; }
 .examen-tag { font-size: 0.75em; font-weight: bold; color: #888; text-transform: uppercase; }
+
+/* --------------- Página de Calendario de Exámenes --------------- */
+.leyenda {
+    display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+    margin: 5px 0 25px; font-size: 0.85em; color: var(--color-text-dark);
+}
+.leyenda-item { display: flex; align-items: center; gap: 6px; }
+.leyenda-color { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+
+.trimestre-titulo {
+    text-align: center; color: #4a4a68; margin: 30px 0 15px;
+    font-size: 1.25em; border-bottom: 2px solid #e6e6fa; padding-bottom: 6px;
+}
+.trimestre-titulo:first-child { margin-top: 0; }
+
+.semanas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 8px;
+}
+
+.semana-bloque {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.semana-titulo {
+    text-align: center; font-weight: bold; font-size: 0.9em;
+    color: var(--color-text-dark); background: var(--color-bg-light);
+    padding: 6px; border-bottom: 2px solid #05639D;
+}
+
+.semana-fechas {
+    display: grid; grid-template-columns: 32px repeat(5, 1fr);
+    font-size: 0.65em; text-align: center; color: #05639D;
+    border-bottom: 1px solid var(--color-border);
+}
+.semana-fechas span { padding: 3px 0; }
+
+.semana-cuerpo {
+    position: relative;
+    display: grid;
+    grid-template-columns: 32px repeat(5, 1fr);
+    grid-template-rows: repeat(6, 20px);
+    background-image: repeating-linear-gradient(to bottom, transparent 0 19px, var(--color-border) 19px 20px);
+}
+
+.hora-label {
+    grid-column: 1; font-size: 0.6em; color: #888;
+    text-align: right; padding-right: 4px; align-self: center;
+}
+
+.examen-bloque {
+    margin: 1px; border-radius: 4px; display: flex;
+    align-items: center; justify-content: center; text-align: center;
+    font-size: 0.6em; font-weight: bold; line-height: 1.1;
+    overflow: hidden; color: #333;
+}
+.examen-bloque.final { background-color: #9a031e; color: #fff; }
+.examen-bloque.presentacion { background-color: #f4978e; color: #5c1a1a; }
+
+@media (max-width: 900px) {
+    .semanas-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .semanas-grid { grid-template-columns: 1fr; }
+}

@@ -11,6 +11,14 @@
 
                 // 1) Cogemos la tabla real del HTML (la que ve el usuario en escritorio)
                 const tabla = document.querySelector('.horario-table');
+                const contenedorPrevio = document.getElementById('horario-movil');
+
+                // Si esta página no tiene tabla de horario o contenedor móvil
+                // (por ejemplo, la página de "Asignaturas/Siglas" o la de
+                // "Calendario Exámenes"), no hacemos nada. Sin este "return",
+                // el script se paraba aquí con un error y todo el código de
+                // después (modulos, abrirPopup...) nunca llegaba a ejecutarse.
+                if (!tabla || !contenedorPrevio) return;
 
                 // 2) Sacamos los nombres de los días desde la cabecera <th>.
                 //    headerCells = [Hora, Lunes, Martes, Miércoles, Jueves, Viernes]
@@ -94,44 +102,6 @@
             // (por ejemplo, si giras el móvil o pasas de escritorio a móvil).
             window.addEventListener('resize', construirVistaMovilPorDia);
         
-            /* =====================================================
-            DATOS DE LOS EXÁMENES  <-- AQUÍ AÑADES TUS EXÁMENES
-            La clave es la sigla (igual que la clase CSS de la asignatura).
-            Formato de fecha: 'AAAA-MM-DD'. "hora", "tipo" y "notas" son opcionales.
-            ===================================================== */
-            const examenes = {
-                AD: [
-                    
-                    
-                ],
-                DI: [
-                    { fecha: '2026-10-13', hora: '16:25', titulo: 'Examen UT1 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-11-10', hora: '16:25', titulo: 'Examen UT2 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-01', hora: '16:25', titulo: 'Examen UT3 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-13-15', hora: '16:25', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-01-26', hora: '16:25', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-02-16', hora: '16:25', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }
-                ],
-                IPGS: [
-                    { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
-                    { fecha: '2026-11-18', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
-                    { fecha: '2026-13-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
-                ],
-                'IPE-II': [],
-                PMDM: [
-                    { fecha: '2026-10-21', hora: '17:20', titulo: 'Examen UT1 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-11-18', hora: '17:20', titulo: 'Examen UT2 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-09', hora: '17:20', titulo: 'Examen UT3 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-13-16', hora: '17:20', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-01-27', hora: '17:20', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-02-17', hora: '17:20', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }                    
-                ],
-                PSP: [],
-                PI: [],
-                OPT: [],
-                SGE: []
-            };
-
             /* Nombre completo y profesor de cada módulo */
             const modulos = {
                 IPGS:     { nombre: 'Inglés profesional GS', profesor: 'Alexandra Gámez Villegas' },
@@ -143,6 +113,47 @@
                 PMDM:     { nombre: 'Programación multimedia y dispositivos móviles', profesor: 'José Alberto Cañete Roldán' },
                 PI:       { nombre: 'Proyecto Intermodular', profesor: 'Santiago Martín Palomo García' },
                 OPT:      { nombre: 'Optativa - Desarrollo Aplicaciones Web con Angular', profesor: 'Santiago Martín Palomo García' }
+            };
+
+            /* =====================================================
+               DATOS DE LOS EXÁMENES (solo para el popup)
+               OJO: el calendario visual de examenes.html es HTML estático,
+               así que estas mismas fechas están escritas también allí a
+               mano. Si añades/cambias un examen, hazlo en los DOS sitios
+               para que no queden desincronizados.
+               ===================================================== */
+            const examenes = {
+                AD: [],
+                DI: [
+                    { fecha: '2026-10-21', hora: '16:25', titulo: 'Examen Tema 1', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-11-18', hora: '16:25', titulo: 'Examen Tema 2', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-09', hora: '16:25', titulo: 'Examen Tema 3', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-16', hora: '16:25', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-01-27', hora: '16:25', titulo: 'Examen Tema 4', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-02-17', hora: '16:25', titulo: 'Examen Tema 5 y Final', tipo: 'Teórico-práctico' }
+                ],
+                IPGS: [
+                    { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
+                    { fecha: '2026-11-18', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
+                    { fecha: '2026-12-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
+                ],
+                'IPE-II': [],
+                PMDM: [
+                    { fecha: '2026-10-13', hora: '17:20', titulo: 'Examen Tema 1', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-11-10', hora: '17:20', titulo: 'Examen Tema 2', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-01', hora: '17:20', titulo: 'Examen Tema 3', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-15', hora: '17:20', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-01-26', hora: '17:20', titulo: 'Examen Tema 4 y 5', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-02-16', hora: '17:20', titulo: 'Examen Tema 6 y Final', tipo: 'Teórico-práctico' }
+                ],
+                PSP: [],
+                PI: [
+                    { fecha: '2026-10-01', hora: '17:20', titulo: 'Examen Tema 1 - ¿Qué es un Proyecto?', tipo: 'Teórico-práctico' }
+                ],
+                OPT: [
+                    { fecha: '2026-10-02', hora: '15:30', titulo: 'Examen Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Teórico' }
+                ],
+                SGE: []
             };
 
             /* Evita que un texto con < o & rompa el HTML */
@@ -160,11 +171,18 @@
                 });
             }
 
+            /* El popup muestra el nombre completo del módulo, el profesor/a,
+               la lista de exámenes de esa asignatura y una franja de color
+               en la cabecera igual al color que esa asignatura tiene en
+               el horario (variable --SIGLA de styles.css). */
             function abrirPopup(sigla) {
                 const modulo = modulos[sigla];
                 if (!modulo) return;
 
-                document.getElementById('popup-titulo').textContent = `${sigla} · ${modulo.nombre}`;
+                const titulo = document.getElementById('popup-titulo');
+                titulo.textContent = `${sigla} · ${modulo.nombre}`;
+                titulo.style.backgroundColor = `var(--${sigla})`;
+
                 document.getElementById('popup-profesor').textContent = `Profesor/a: ${modulo.profesor}`;
 
                 const hoy = new Date();
@@ -181,11 +199,10 @@
                         const [a, m, d] = ex.fecha.split('-').map(Number);
                         const pasado = new Date(a, m - 1, d) < hoy;
                         return `
-                            <li class="examen ${pasado ? 'pasado' : ''}">
-                                <strong>${escaparHTML(ex.titulo)}</strong>
+                            <li class="examen ${pasado ? 'pasado' : ''}" style="border-left-color:var(--${sigla})">
+                                <strong>${[].concat(ex.titulo).map(escaparHTML).join('<br>')}</strong>
                                 <span class="examen-fecha">${formatearFecha(ex.fecha)}${ex.hora ? ' · ' + escaparHTML(ex.hora) : ''}</span>
                                 ${ex.tipo ? `<span class="examen-tipo">${escaparHTML(ex.tipo)}</span>` : ''}
-                                ${ex.notas ? `<span class="examen-notas">${escaparHTML(ex.notas)}</span>` : ''}
                                 ${pasado ? '<span class="examen-tag">Realizado</span>' : ''}
                             </li>`;
                     }).join('') + '</ul>';
