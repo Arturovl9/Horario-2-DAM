@@ -20,14 +20,6 @@
             </header>
 
             
-            <!--
-                Contenedor de la vista móvil. Empieza vacío: el script de más
-                abajo lo rellena con un bloque por cada día. El CSS decide
-                cuándo se muestra este div y cuándo se muestra la tabla
-                (ver el @media en styles.css).
-            -->
-            <div id="horario-movil" class="horario-movil"></div>
-
             <!-- Estructura del Popup (fuera de la tabla) -->
             <div id="overlay" class="overlay" onclick="cerrarPopup()">
                 <div class="popup" onclick="event.stopPropagation()">
@@ -50,45 +42,45 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="IPGS" id="IPGS"><strong>IP GS</strong></td>
+                        <td class="IPGS"><strong>IP GS</strong></td>
                         <td class="IPGS" onclick="abrirPopup('IPGS')">Inglés profesional GS</td>
                         <td>Alexandra Gámez Villegas</td>
                     </tr>
                     <tr>
-                        <td class="IPE-II" id="IPE-II"><strong>IPE II</strong></td>
+                        <td class="IPE-II"><strong>IPE II</strong></td>
                         <td class="IPE-II" onclick="abrirPopup('IPE-II')">Itinerario personal para la empleabilidad II</td>
                         <td>María Lourdes Galeano Criado</td>
                     </tr>
                     <tr>
-                        <td class="SGE" id="SGE"><strong>SGE</strong></td>
+                        <td class="SGE"><strong>SGE</strong></td>
                         <td class="SGE" onclick="abrirPopup('SGE')">Sistemas de gestión empresarial</td>
                         <td>Jaime Pérez Cano</td>
                     </tr>
                     <tr>
-                        <td class="AD" id="AD"><strong>AD</strong></td>
+                        <td class="AD"><strong>AD</strong></td>
                         <td class="AD" onclick="abrirPopup('AD')">Acceso a datos</td>
                         <td rowspan="2">Rafael Arilla Blázquez</td>
                     </tr>
                     <tr>
-                        <td class="PSP" id="PSP"><strong>PSP</strong></td>
+                        <td class="PSP"><strong>PSP</strong></td>
                         <td class="PSP" onclick="abrirPopup('PSP')">Programación de servicios y procesos</td>
                     </tr>
                     <tr>
-                        <td class="DI" id="DI"><strong>DI</strong></td>
+                        <td class="DI"><strong>DI</strong></td>
                         <td class="DI" onclick="abrirPopup('DI')">Desarrollo de interfaces</td>
                         <td rowspan="2">José Alberto Cañete Roldán</td>
                     </tr>
                     <tr>
-                        <td class="PMDM" id="PMDM"><strong>PMDM</strong></td>
+                        <td class="PMDM"><strong>PMDM</strong></td>
                         <td class="PMDM" onclick="abrirPopup('PMDM')">Programación multimedia y dispositivos móviles</td>
                     </tr>
                     <tr>
-                        <td class="PI" id="PI"><strong>PI</strong></td>
+                        <td class="PI"><strong>PI</strong></td>
                         <td class="PI" onclick="abrirPopup('PI')">Proyecto Intermodular de Desarrollo de Aplicaciones Multiplataforma</td>
                         <td rowspan="2">Santiago Martín Palomo García</td>
                     </tr>
                     <tr>
-                        <td class="OPT" id="OPT"><strong>OPT</strong></td>
+                        <td class="OPT"><strong>OPT</strong></td>
                         <td class="OPT" onclick="abrirPopup('OPT')">Optativa - Desarrollo Aplicaciones Web con Angular</td>
                     </tr>
                 </tbody>

@@ -11,6 +11,14 @@
 
                 // 1) Cogemos la tabla real del HTML (la que ve el usuario en escritorio)
                 const tabla = document.querySelector('.horario-table');
+                const contenedorPrevio = document.getElementById('horario-movil');
+
+                // Si esta página no tiene tabla de horario o contenedor móvil
+                // (por ejemplo, la página de "Asignaturas/Siglas"), no hacemos
+                // nada. Sin este "return", el script se paraba aquí con un
+                // error y todo el código de después (examenes, modulos,
+                // abrirPopup...) nunca llegaba a ejecutarse.
+                if (!tabla || !contenedorPrevio) return;
 
                 // 2) Sacamos los nombres de los días desde la cabecera <th>.
                 //    headerCells = [Hora, Lunes, Martes, Miércoles, Jueves, Viernes]
