@@ -11,6 +11,14 @@
 
                 // 1) Cogemos la tabla real del HTML (la que ve el usuario en escritorio)
                 const tabla = document.querySelector('.horario-table');
+                const contenedor = document.getElementById('horario-movil');
+
+                // Si esta página no tiene tabla de horario o contenedor móvil
+                // (por ejemplo, "Asignatura/Siglas" o "Calendario Exámenes"),
+                // no hacemos nada. Sin este "return", el script se paraba
+                // aquí con un error y todo el código de después (modulos,
+                // examenes, abrirPopup...) nunca llegaba a ejecutarse.
+                if (!tabla || !contenedor) return;
 
                 // 2) Sacamos los nombres de los días desde la cabecera <th>.
                 //    headerCells = [Hora, Lunes, Martes, Miércoles, Jueves, Viernes]
@@ -26,10 +34,8 @@
                 const filas = [...tabla.querySelectorAll('tbody tr')]
                     .filter(tr => !tr.classList.contains('recreo-row'));
 
-                // 4) Buscamos el <div> vacío donde vamos a construir la vista móvil
-                //    y lo vaciamos por si la función se ejecuta más de una vez
-                //    (por ejemplo, al redimensionar la ventana).
-                const contenedor = document.getElementById('horario-movil');
+                // 4) Vaciamos el contenedor por si la función se ejecuta más
+                //    de una vez (por ejemplo, al redimensionar la ventana).
                 contenedor.innerHTML = '';
 
                 // 5) BUCLE PRINCIPAL: recorremos cada día.
@@ -93,44 +99,6 @@
             // ...y se vuelve a ejecutar cada vez que cambia el tamaño de la ventana
             // (por ejemplo, si giras el móvil o pasas de escritorio a móvil).
             window.addEventListener('resize', construirVistaMovilPorDia);
-        
-            /* =====================================================
-            DATOS DE LOS EXÁMENES  <-- AQUÍ AÑADES TUS EXÁMENES
-            La clave es la sigla (igual que la clase CSS de la asignatura).
-            Formato de fecha: 'AAAA-MM-DD'. "hora", "tipo" y "notas" son opcionales.
-            ===================================================== */
-            const examenes = {
-                AD: [
-                    
-                    
-                ],
-                DI: [
-                    { fecha: '2026-10-13', hora: '16:25', titulo: 'Examen UT1 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-11-10', hora: '16:25', titulo: 'Examen UT2 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-01', hora: '16:25', titulo: 'Examen UT3 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-13-15', hora: '16:25', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-01-26', hora: '16:25', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-02-16', hora: '16:25', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }
-                ],
-                IPGS: [
-                    { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
-                    { fecha: '2026-11-18', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
-                    { fecha: '2026-13-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
-                ],
-                'IPE-II': [],
-                PMDM: [
-                    { fecha: '2026-10-21', hora: '17:20', titulo: 'Examen UT1 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-11-18', hora: '17:20', titulo: 'Examen UT2 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-09', hora: '17:20', titulo: 'Examen UT3 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-13-16', hora: '17:20', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-01-27', hora: '17:20', titulo: 'Examen UT5 - Ficheros', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-02-17', hora: '17:20', titulo: 'Examen UT6 y Final', tipo: 'Teórico-práctico' }                    
-                ],
-                PSP: [],
-                PI: [],
-                OPT: [],
-                SGE: []
-            };
 
             /* Nombre completo y profesor de cada módulo */
             const modulos = {
@@ -155,12 +123,12 @@
             const examenes = {
                 AD: [],
                 DI: [
-                    { fecha: '2026-10-21', hora: '16:25', titulo: 'Examen Tema 1', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-11-18', hora: '16:25', titulo: 'Examen Tema 2', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-09', hora: '16:25', titulo: 'Examen Tema 3', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-16', hora: '16:25', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-01-27', hora: '16:25', titulo: 'Examen Tema 4', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-02-17', hora: '16:25', titulo: 'Examen Tema 5 y Final', tipo: 'Teórico-práctico' }
+                    { fecha: '2026-10-21', hora: '16:25', titulo: 'Examen Tema 1 - Interfaces con editores visuales', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-11-18', hora: '16:25', titulo: 'Examen Tema 2 - Interfaces basadas en XML', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-09', hora: '16:25', titulo: 'Examen Tema 3 - Componentes visuales', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-16', hora: '16:25', titulo: 'Examen Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-01-27', hora: '16:25', titulo: 'Examen Tema 4 - Usabilidad de interfaces', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-02-17', hora: '16:25', titulo: 'Examen Tema 5 - Informes y Final', tipo: 'Teórico-práctico' }
                 ],
                 IPGS: [
                     { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
@@ -169,12 +137,12 @@
                 ],
                 'IPE-II': [],
                 PMDM: [
-                    { fecha: '2026-10-13', hora: '17:20', titulo: 'Examen Tema 1', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-11-10', hora: '17:20', titulo: 'Examen Tema 2', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-01', hora: '17:20', titulo: 'Examen Tema 3', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-15', hora: '17:20', titulo: 'Examen Final', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-01-26', hora: '17:20', titulo: 'Examen Tema 4 y 5', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-02-16', hora: '17:20', titulo: 'Examen Tema 6 y Final', tipo: 'Teórico-práctico' }
+                    { fecha: '2026-10-13', hora: '17:20', titulo: 'Examen Tema 1 - Tecnologías móviles', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-11-10', hora: '17:20', titulo: 'Examen Tema 2 - Interfaz y eventos en Android', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-01', hora: '17:20', titulo: 'Examen Tema 3 - Persistencia de datos', tipo: 'Teórico-práctico' },
+                    { fecha: '2026-12-15', hora: '17:20', titulo: 'Examen Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-01-26', hora: '17:20', titulo: 'Examen Tema 4 - Imagen y Audio en Android Tema 5 - Geolocalización', tipo: 'Teórico-práctico' },
+                    { fecha: '2027-02-16', hora: '17:20', titulo: 'Examen Tema 6 - Desarrollo de juegos con Unity y Final', tipo: 'Teórico-práctico' }
                 ],
                 PSP: [],
                 PI: [
@@ -212,6 +180,12 @@
                 const titulo = document.getElementById('popup-titulo');
                 titulo.textContent = `${sigla} · ${modulo.nombre}`;
                 titulo.style.backgroundColor = `var(--${sigla})`;
+
+                // Guardamos el color de la asignatura en una variable CSS del
+                // propio popup, para que todo lo de dentro (el borde de cada
+                // examen, el fondo de las tarjetas...) se pinte con el mismo
+                // color en vez de con grises genéricos.
+                document.querySelector('.popup').style.setProperty('--popup-color', `var(--${sigla})`);
 
                 document.getElementById('popup-profesor').textContent = `Profesor/a: ${modulo.profesor}`;
 

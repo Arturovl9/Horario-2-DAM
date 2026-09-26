@@ -1,383 +1,342 @@
 /* --------------- Ajustes Generales --------------- */
-        .overlay {
-            display: none; /* Oculto por defecto */
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .popup {
-            background: white;
-            padding: 20px 24px;
-            border-radius: 10px;
-            position: relative;
-            width: 90%;
-            max-width: 480px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-sizing: border-box;
-        }
-        .cerrar {
-            position: absolute;
-            top: 5px; right: 10px;
-            cursor: pointer;
-            font-size: 20px;
-        }   
+.overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+.popup {
+    background: white;
+    padding: 20px 24px;
+    border-radius: 10px;
+    border: 1px solid var(--popup-color, var(--color-border));
+    position: relative;
+    width: 90%;
+    max-width: 480px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    animation: popupEntrada 0.2s ease-out;
+}
 
-    /* Definición de Colores Pasteles */
-        :root {
-            /* ... (Tus variables de color se mantienen) ... */
-            --color-bg-light: #f4f7f6;
-            --color-text-dark: #333;
-            --color-border: #ddd;
-            --IPGS: #A4C2F4 ;
-            --AD: #a8dadc;
-            --DI: #FCE5CD;
-            --PI: #EFE5FD;
-            --PMDM: #FFF2CC;
-            --PSP: #F8CECC;
-            --SGE: #D4E6F1;
-            --OPT: #E0F2F1;
-            --IPE-II: #b5e48c;
-            --color-recreo: #f0f0f0; 
-        }
+@keyframes popupEntrada {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+}
+.cerrar {
+    position: absolute;
+    top: 5px; right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}   
 
-    /* Estilos Generales */
-        body {
-            font-family: Geneva;
-            background-color: var(--color-bg-light);
-            color: var(--color-text-dark);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
+/* Definición de Colores Pasteles */
+:root {
+    --color-bg-light: #f4f7f6;
+    --color-text-dark: #333;
+    --color-border: #ddd;
+    --IPGS: #A4C2F4;
+    --AD: #a8dadc;
+    --DI: #FCE5CD;
+    --PI: #EFE5FD;
+    --PMDM: #FFF2CC;
+    --PSP: #F8CECC;
+    --SGE: #D4E6F1;
+    --OPT: #E0F2F1;
+    --IPE-II: #b5e48c;
+    --color-recreo: #f0f0f0; 
+}
 
-        .horario-container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 75%;
-            width: 1000px;
-            box-sizing: border-box;
-            overflow-x: auto; /* Ajuste Responsivo CLAVE 1: Contenedor Desplazable Permite que la tabla desborde y se pueda desplazar horizontalmente en pantallas pequeñas */
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-    /* ... Menu de Navegación ... */
-        header {
-            background: #B5E1FD;
-            border-radius: 10px;
-            width: fit-content;
-            margin: 0 auto;
-            z-index: 100;
-        }
+/* Estilos Generales */
+body {
+    font-family: Arial, sans-serif;
+    /* background-color: var(--color-bg-light); */
+    background-image: url(Fondo.jpg);
 
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
+    background-size: cover;       /* Escala la imagen para cubrir todo el fondo */
+    background-position: center;  /* Centra la imagen en la pantalla */
+    background-repeat: no-repeat; /* Evita que la imagen se repita en mosaico */
+    background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll (opcional) */
+    
+    color: var(--color-text-dark);
+    margin: 0;
+    padding: 10px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        nav ul li {
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-        }
+}
 
-        nav ul li a {
-            display: block;
-            padding: 10px 15px;
-            color: #05639D;
-            text-decoration: none;
-        }
+.horario-container {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* En vez de un ancho fijo, se mueve entre un mínimo y un máximo según
+       el ancho de la ventana (vw), así en pantallas de escritorio grandes
+       o pequeñas el contenido se reajusta en vez de quedarse siempre
+       pegado a los mismos 1000px. */
+    width: clamp(700px, 82vw, 1300px);
+    max-width: 96vw;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
 
-        nav ul li:hover {
-            background: #034771;
-            border-radius: 10px;
-        }
-
-        nav ul li a:hover{color: #B5E1FD;}
-        
-    /* ... (Tus estilos para h1 y subtitle se mantienen) ... */
-        h1 {
-            text-align: center;
-            color: #4a4a68;
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #888;
-            margin-bottom: 25px;
-            font-size: 1.1em;
-        }
-
-        .siglas-titulo {
-            margin-top: 30px;
-        }
-
-/* --------------- Estilos de la Tabla --------------- */
-    .horario-table, .siglas-table {
-        min-width: 700px; 
-        width: 100%;
-        border-collapse: separate; 
-        border-spacing: 0;
-        overflow: hidden; 
-        border-radius: 10px;
+/* En pantallas de escritorio muy anchas, un pelín más de aire y de
+   tamaño de letra para que la tabla no se vea pequeña perdida en medio */
+@media (min-width: 1600px) {
+    .horario-container {padding: 28px;}
+    .horario-table th, .horario-table td, .siglas-table th, .siglas-table td {
+        font-size: 0.95em;
+        padding: 12px 8px;
     }
+}
 
-    .horario-table th, 
-    .horario-table td,
-    .siglas-table th,
-    .siglas-table td {
-        padding: 10px 8px; /* Reducimos padding para ahorrar espacio */
-        text-align: center;
-        border: 1px solid var(--color-border);
-        font-weight: 500;
-        transition: background-color 0.3s ease;
-        font-size: 0.9em; /* Reducimos ligeramente el tamaño de fuente */
-    }
+a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 
-    .horario-table th,
-    .horario-table td {
-        white-space: nowrap; /* Evita que los nombres de asignaturas se rompan */
-    }
+/* Menu de Navegación */
+header {
+    background: #B5E1FD;
+    border-radius: 10px;
+    width: fit-content;
+    margin: 0 auto 20px auto;
+    z-index: 100;
+}
 
-    /* Encabezados */
-        .horario-table th,
-        .siglas-table th {
-            background-color: #e6e6fa; 
-            color: var(--color-text-dark);
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
 
-    /* Columna de Horas */
-        .time-slot {
-            background-color: var(--color-bg-light);
-            font-weight: bold;
-            color: #666;
-            width: 100px; /* Ancho fijo para la hora */
-            white-space: nowrap;
-        }
-
-    /* Filas de Asignaturas */
-        .IPGS { background-color: var(--IPGS); }
-        .AD { background-color: var(--AD); }
-        .DI { background-color: var(--DI); }
-        .PMDM { background-color: var(--PMDM); }
-        .PSP { background-color: var(--PSP); }
-        .SGE { background-color: var(--SGE); }
-        .PI { background-color: var(--PI); }
-        .IPE-II { background-color: var(--IPE-II); }
-        .OPT { background-color: var(--OPT); }
-
-    /* Efecto Hover para interactividad */
-        .horario-table td:not(.time-slot):hover,
-        .siglas-table tbody td:hover {
-            filter: brightness(0.95);
-            cursor: pointer;
-        }
-
-    /* Estilo para el Recreo */
-        .recreo-row td {
-            background-color: var(--color-recreo);
-            font-weight: bold;
-            font-style: italic;
-            color: #888;
-            padding: 12px; /* Reducimos padding */
-            border: 2px dashed #ccc;
-            letter-spacing: 1px;
-        }
-
-    /* Ajustes de bordes redondeados (se mantienen) */
-        .horario-table thead tr:first-child th:first-child,
-        .siglas-table thead tr:first-child th:first-child { border-top-left-radius: 10px; }
-
-        .horario-table thead tr:first-child th:last-child,
-        .siglas-table thead tr:first-child th:last-child { border-top-right-radius: 10px; }
-
-        .horario-table tbody tr:last-child td:first-child,
-        .siglas-table tbody tr:last-child td:first-child { border-bottom-left-radius: 10px; }
-
-        .horario-table tbody tr:last-child td:last-child,
-        .siglas-table tbody tr:last-child td:last-child { border-bottom-right-radius: 10px; }
-
-/* --------------- Vista móvil: bloques por día (rellenados por JS) --------------- */
-/*
- * IMPORTANTE: aquí el CSS solo decide QUÉ SE VE y CÓMO SE PINTA.
- * Quién genera el contenido (los bloques de cada día) es el <script>
- * de index.html (función construirVistaMovilPorDia). Este bloque de CSS
- * no crea ningún elemento, solo da estilo a los que el JS va a insertar.
- */
-
-    /* Por defecto (escritorio) el contenedor de la vista móvil está
-       vacío y oculto: solo la tabla normal es visible. */
-    .horario-movil {
-        display: none;
-    }
-
-    @media (max-width: 1200px) {
-        .horario-container {
-            max-width: 80%;
-            padding: 7.5px;
-        }
-
-        .horario-table th, .horario-table td, .siglas-table th, .siglas-table td {
-            padding: 0.5em 0.3em; /* Reducimos padding para ahorrar espacio */
-            font-size: 0.8em; /* Reducimos ligeramente el tamaño de fuente */
-        }
-    }
-
-    @media (max-width: 925px) {
-
-        .horario-container {
-            max-width: 100%;
-            padding: 15px;
-        }
-
-        /* En pantallas pequeñas hacemos el cambio contrario:
-           escondemos la tabla de horario de escritorio... */
-        .horario-table {
-            display: none;
-        }
-
-        /* ...y mostramos el contenedor con las tarjetas por día
-           (el que el JS ya ha rellenado). */
-        .horario-movil {
-            display: block;
-            margin-bottom: 25px;
-        }
-
-        /* Hacemos la tabla de siglas completamente responsiva adaptando su min-width */
-        .siglas-table {
-            min-width: 100%;
-        }
-
-        .siglas-table td, 
-        .siglas-table th {
-            white-space: normal; /* Permite que el texto largo se ajuste si es necesario */
-            font-size: 0.85em;
-        }
-
-        /* Cada día es una "tarjeta" independiente con borde redondeado */
-        .dia-bloque {
-            border: 1px solid var(--color-border);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 16px; /* separación entre el bloque de un día y el siguiente */
-        }
-
-        /* Cabecera de cada tarjeta: el nombre del día (Lunes, Martes...) */
-        .dia-titulo {
-            margin: 0;
-            padding: 10px 14px;
-            background-color: #e6e6fa; /* mismo lila que la cabecera de la tabla de escritorio */
-            color: var(--color-text-dark);
-            font-size: 1em;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Cada "franja" es una fila dentro de la tarjeta: hora + asignatura.
-           El JS crea un <div class="franja"> por cada hora de ese día. */
-        .franja {
-            display: flex;                 /* hora y asignatura en la misma línea */
-            justify-content: space-between; /* hora a la izquierda, asignatura a la derecha */
-            align-items: center;
-            padding: 10px 14px;
-            border-top: 1px solid var(--color-border); /* separa una franja de la siguiente */
-            font-size: 0.9em;
-        }
-
-        /* Texto de la hora dentro de la franja (ej: "15:30 16:25") */
-        .franja-hora {
-            font-weight: bold;
-            color: #666;
-            white-space: nowrap;
-            margin-right: 12px;
-        }
-
-        /* Texto de la asignatura + profesor dentro de la franja */
-        .franja-asignatura {
-            text-align: right;
-            flex: 1; /* ocupa el espacio restante para empujar el texto a la derecha */
-        }
-
-        /* El JS añade a cada .franja la misma clase que tenía la celda
-           original en la tabla (LMSGI, IPGS, ED...), así que con estas
-           reglas conseguimos que el color de cada asignatura sea IDÉNTICO
-           en escritorio y en móvil, sin duplicar colores a mano. */
-        
-        .franja.IPGS { background-color: var(--IPGS); }
-        .franja.AD { background-color: var(--AD); }
-        .franja.DI { background-color: var(--DI); }
-        .franja.PMDM { background-color: var(--PMDM); }
-        .franja.PSP { background-color: var(--PSP); }
-        .franja.SGE { background-color: var(--SGE); }
-        .franja.PI { background-color: var(--PI); }
-        .franja.IPE-II { background-color: var(--IPE-II); }
-        .franja.OPT { background-color: var(--OPT); }
-
-        .dia-bloque:last-child {
-            margin-bottom: 0;
-        }
-    }
-
-/* --------------- Popup de asignaturas --------------- */
-.popup h2 {
-    margin: -20px -24px 14px -24px;
-    padding: 16px 40px 16px 24px;
-    font-size: 1.15em;
-    color: #333;
-    border-radius: 10px 10px 0 0;
+nav ul li {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
     transition: background-color 0.2s ease;
 }
-.popup-profesor { margin: 0 0 16px; color: #888; font-size: 0.9em; }
-.sin-examenes { color: #888; font-style: italic; }
-.lista-examenes { list-style: none; margin: 0; padding: 0; }
-.examen {
-    display: flex; flex-direction: column; gap: 2px;
-    padding: 10px 12px; margin-bottom: 8px;
-    border-left: 4px solid #ccc; border-radius: 6px;
-    background: var(--color-bg-light);
-}
-.examen-fecha { font-size: 0.9em; text-transform: capitalize; color: #555; }
-.examen-tipo { font-size: 0.85em; color: #777; }
-.examen.pasado { opacity: 0.55; }
-.examen-tag { font-size: 0.75em; font-weight: bold; color: #888; text-transform: uppercase; }
 
+nav ul li a {
+    display: block;
+    padding: 8px 12px;
+    color: #05639D;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+nav ul li:hover {
+    background: #034771;
+    border-radius: 10px;
+}
+
+nav ul li a:hover { color: #B5E1FD; }
+
+h1 {
+    text-align: center;
+    color: #4a4a68;
+    margin-bottom: 5px;
+    font-size: 1.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #888;
+    margin-bottom: 25px;
+    font-size: 1em;
+}
+
+.siglas-titulo {
+    margin-top: 30px;
+}
+
+/* --------------- Estilos de la Tabla --------------- */
+.horario-table, .siglas-table {
+    width: 100%;
+    border-collapse: separate; 
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.horario-table th, 
+.horario-table td,
+.siglas-table th,
+.siglas-table td {
+    padding: 10px 6px;
+    text-align: center;
+    border: 1px solid var(--color-border);
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.horario-table th,
+.siglas-table th {
+    background-color: #e6e6fa; 
+    color: var(--color-text-dark);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Columna de Horas */
+.time-slot {
+    background-color: var(--color-bg-light);
+    font-weight: bold;
+    color: #666;
+    white-space: nowrap;
+}
+
+/* Filas de Asignaturas */
+.IPGS { background-color: var(--IPGS); }
+.AD { background-color: var(--AD); }
+.DI { background-color: var(--DI); }
+.PMDM { background-color: var(--PMDM); }
+.PSP { background-color: var(--PSP); }
+.SGE { background-color: var(--SGE); }
+.PI { background-color: var(--PI); }
+.IPE-II { background-color: var(--IPE-II); }
+.OPT { background-color: var(--OPT); }
+
+/* Efecto Hover para interactividad */
+.horario-table td:not(.time-slot):hover,
+.siglas-table tbody td:hover {
+    filter: brightness(0.95);
+    cursor: pointer;
+}
+
+/* Estilo para el Recreo */
+.recreo-row td {
+    background-color: var(--color-recreo);
+    font-weight: bold;
+    font-style: italic;
+    color: #888;
+    padding: 10px;
+    border: 2px dashed #ccc;
+}
+
+/* --------------- Vista móvil: bloques por día --------------- */
+.horario-movil {
+    display: none;
+}
+
+@media (max-width: 850px) {
+    body {
+        padding: 5px;
+    }
+    .horario-container {
+        padding: 10px;
+    }
+    .horario-table {
+        display: none;
+    }
+    .horario-movil {
+        display: block;
+    }
+    .siglas-table {
+        font-size: 0.8em;
+    }
+
+    .dia-bloque {
+        border: 1px solid var(--color-border);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 14px;
+        background: #fff;
+    }
+
+    .dia-titulo {
+        margin: 0;
+        padding: 10px 14px;
+        background-color: #e6e6fa;
+        color: var(--color-text-dark);
+        font-size: 0.95em;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .franja {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        border-top: 1px solid var(--color-border);
+        font-size: 0.85em;
+    }
+
+    .franja-hora {
+        font-weight: bold;
+        color: #555;
+        white-space: nowrap;
+        margin-right: 10px;
+    }
+
+    .franja-asignatura {
+        text-align: right;
+        flex: 1;
+    }
+    
+    .franja.IPGS { background-color: var(--IPGS); }
+    .franja.AD { background-color: var(--AD); }
+    .franja.DI { background-color: var(--DI); }
+    .franja.PMDM { background-color: var(--PMDM); }
+    .franja.PSP { background-color: var(--PSP); }
+    .franja.SGE { background-color: var(--SGE); }
+    .franja.PI { background-color: var(--PI); }
+    .franja.IPE-II { background-color: var(--IPE-II); }
+    .franja.OPT { background-color: var(--OPT); }
+}
+
+/* --------------- Popup de asignaturas --------------- */
+    .popup h2 {
+        margin: -20px -24px 14px -24px;
+        padding: 16px 40px 16px 24px;
+        font-size: 1.1em;
+        color: #333;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .popup-profesor { margin: 0 0 16px; color: #888; font-size: 0.9em; }
+    .sin-examenes { color: #888; font-style: italic; }
+    .lista-examenes { list-style: none; margin: 0; padding: 0; }
+    .examen {
+        display: flex;
+        flex-direction: column; gap: 2px;
+        padding: 10px 12px; margin-bottom: 8px;
+        border-left: 4px solid var(--popup-color, #ccc);
+        border-radius: 6px;
+        background: color-mix(in srgb, var(--popup-color, var(--color-bg-light)) 20%, white);
+    }
+
+    .examen-fecha { font-size: 0.9em; text-transform: capitalize; color: #555; }
+    .examen-tipo { font-size: 0.85em; color: #777; }
+    .examen.pasado { opacity: 0.55; }
+    .examen-tag { font-size: 0.75em; font-weight: bold; color: #693d3d; text-transform: uppercase; }
 /* --------------- Página de Calendario de Exámenes --------------- */
 .leyenda {
-    display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
-    margin: 5px 0 25px; font-size: 0.85em; color: var(--color-text-dark);
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    margin: 5px 0 20px; font-size: 0.8em; color: var(--color-text-dark);
 }
-.leyenda-item { display: flex; align-items: center; gap: 6px; }
-.leyenda-color { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+.leyenda-item { display: flex; align-items: center; gap: 4px; }
+.leyenda-color { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
 
 .trimestre-titulo {
-    text-align: center; color: #4a4a68; margin: 30px 0 15px;
-    font-size: 1.25em; border-bottom: 2px solid #e6e6fa; padding-bottom: 6px;
+    text-align: center; color: #4a4a68; margin: 25px 0 12px;
+    font-size: 1.15em; border-bottom: 2px solid #e6e6fa; padding-bottom: 6px;
 }
-.trimestre-titulo:first-child { margin-top: 0; }
 
 .semanas-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    gap: 12px;
     margin-bottom: 8px;
 }
 
@@ -385,47 +344,120 @@
     border: 1px solid var(--color-border);
     border-radius: 8px;
     overflow: hidden;
+    background: #fff;
 }
 
 .semana-titulo {
-    text-align: center; font-weight: bold; font-size: 0.9em;
+    text-align: center; font-weight: bold; font-size: 0.85em;
     color: var(--color-text-dark); background: var(--color-bg-light);
-    padding: 6px; border-bottom: 2px solid #05639D;
+    padding: 5px; border-bottom: 2px solid #05639D;
 }
 
 .semana-fechas {
-    display: grid; grid-template-columns: 32px repeat(5, 1fr);
-    font-size: 0.65em; text-align: center; color: #05639D;
+    display: grid; grid-template-columns: 34px repeat(5, 1fr);
+    font-size: 0.6em; text-align: center; color: #05639D;
     border-bottom: 1px solid var(--color-border);
 }
-.semana-fechas span { padding: 3px 0; }
+.semana-fechas span { padding: 2px 0; }
 
 .semana-cuerpo {
     position: relative;
     display: grid;
-    grid-template-columns: 32px repeat(5, 1fr);
-    grid-template-rows: repeat(6, 20px);
-    background-image: repeating-linear-gradient(to bottom, transparent 0 19px, var(--color-border) 19px 20px);
+    grid-template-columns: 34px repeat(5, 1fr);
+    grid-template-rows: repeat(6, 18px);
+    background-image: repeating-linear-gradient(to bottom, transparent 0 17px, var(--color-border) 17px 18px);
 }
 
 .hora-label {
-    grid-column: 1; font-size: 0.6em; color: #888;
-    text-align: right; padding-right: 4px; align-self: center;
+    grid-column: 1; font-size: 0.55em; color: #888;
+    text-align: right; padding-right: 3px; align-self: center;
 }
 
 .examen-bloque {
-    margin: 1px; border-radius: 4px; display: flex;
+    margin: 1px; border-radius: 3px; display: flex;
     align-items: center; justify-content: center; text-align: center;
-    font-size: 0.6em; font-weight: bold; line-height: 1.1;
-    overflow: hidden; color: #333;
+    font-size: 0.55em; font-weight: bold; line-height: 1;
+    overflow: hidden; color: #333; padding: 1px;
 }
 .examen-bloque.final { background-color: #9a031e; color: #fff; }
 .examen-bloque.presentacion { background-color: #f4978e; color: #5c1a1a; }
+.examen-bloque.anadido {
+    border: 1px dashed rgba(0,0,0,0.45);
+    cursor: pointer;
+}
+.examen-bloque.anadido:hover { filter: brightness(0.92); }
+.IPGS { background-color: var(--IPGS); }
+.AD { background-color: var(--AD); }
+.DI { background-color: var(--DI); }
+.PMDM { background-color: var(--PMDM); }
+.PSP { background-color: var(--PSP); }
+.SGE { background-color: var(--SGE); }
+.PI { background-color: var(--PI); }
+.IPE-II { background-color: var(--IPE-II); }
+.OPT { background-color: var(--OPT); }
 
 @media (max-width: 900px) {
     .semanas-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 600px) {
-    .semanas-grid { grid-template-columns: 1fr; }
+    .semanas-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .semana-titulo { font-size: 0.75em; }
+    .semana-fechas { font-size: 0.55em; }
+    .hora-label { font-size: 0.5em; }
+    .examen-bloque { font-size: 0.5em; }
 }
+
+/* --------------- Formulario "Añadir examen / presentación" --------------- */
+.anadir-examen { text-align: center; margin: 6px 0 22px; }
+
+.btn-anadir {
+    background: #05639D; color: #fff; border: none;
+    padding: 9px 18px; border-radius: 20px;
+    font-size: 0.85em; font-family: inherit; cursor: pointer;
+}
+.btn-anadir:hover { background: #034771; }
+
+.form-examen {
+    display: flex; flex-direction: column; gap: 12px;
+    max-width: 480px; margin: 14px auto 0; padding: 16px;
+    border: 1px solid var(--color-border); border-radius: 10px;
+    background: var(--color-bg-light); text-align: left;
+}
+
+.form-titulo-modo { margin: 0; font-size: 1em; color: #4a4a68; }
+
+.form-fila { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.form-fila label {
+    display: flex; flex-direction: column; gap: 4px;
+    font-size: 0.8em; color: #555; flex: 1; min-width: 140px;
+}
+
+.form-fila input, .form-fila select {
+    padding: 7px 8px; border: 1px solid var(--color-border);
+    border-radius: 6px; font-size: 0.9em; font-family: inherit;
+}
+
+.form-check {
+    flex-direction: row !important;
+    align-items: center; gap: 6px !important;
+}
+.form-check input { width: auto; }
+
+.form-botones { display: flex; gap: 10px; justify-content: flex-end; }
+
+.btn-guardar {
+    background: #2a9d8f; color: #fff; border: none;
+    padding: 7px 18px; border-radius: 6px; cursor: pointer; font-family: inherit;
+}
+.btn-cancelar {
+    background: #e0e0e0; color: #555; border: none;
+    padding: 7px 18px; border-radius: 6px; cursor: pointer; font-family: inherit;
+}
+.btn-eliminar {
+    background: #fff; color: #c1121f; border: 1px solid #c1121f;
+    padding: 7px 18px; border-radius: 6px; cursor: pointer; font-family: inherit;
+    margin-right: auto;
+}
+.btn-eliminar:hover { background: #c1121f; color: #fff; }
