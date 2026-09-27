@@ -224,14 +224,13 @@
                 if (overlay) overlay.style.display = 'none';
             }
 
-            /* =====================================================
-               POPUP DE UN EXAMEN (Calendario de Exámenes)
-               Los bloques del calendario están escritos a mano en
-               examenes.html y cada uno llama a abrirPopupExamen(sigla, tema)
-               al pulsarlo. Aquí solo se busca el profesor/a en "modulos"
-               (arriba en este archivo) y se muestra junto al tema que ya
-               viene indicado en el propio bloque.
-               ===================================================== */
+            /* ===========================================================
+               POPUP DE UN EXAMEN (Calendario de Exámenes) los bloques
+               del calendario están escritos a mano en examenes.html y
+               cada uno llama a abrirPopupExamen(sigla, tema) al pulsarlo.
+               Aquí solo se busca el profesor/a en "modulos" y se muestra
+               junto al tema que ya viene indicado en el propio bloque.
+               =========================================================== */
             function abrirPopupExamen(sigla, tema) {
                 const overlay = document.getElementById('overlay-examen');
                 if (!overlay) return;

@@ -53,14 +53,11 @@
 /* Estilos Generales */
 body {
     font-family: Arial, sans-serif;
-    /* background-color: var(--color-bg-light); */
     background-image: url(Fondo.jpg);
-
     background-size: cover;       /* Escala la imagen para cubrir todo el fondo */
     background-position: center;  /* Centra la imagen en la pantalla */
     background-repeat: no-repeat; /* Evita que la imagen se repita en mosaico */
     background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll (opcional) */
-    
     color: var(--color-text-dark);
     margin: 0;
     padding: 10px;
@@ -68,7 +65,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .horario-container {
@@ -168,10 +164,7 @@ h1 {
     overflow: hidden;
 }
 
-.horario-table th, 
-.horario-table td,
-.siglas-table th,
-.siglas-table td {
+.horario-table th,  .horario-table td, .siglas-table th, .siglas-table td {
     padding: 10px 6px;
     text-align: center;
     border: 1px solid var(--color-border);
@@ -179,8 +172,7 @@ h1 {
     font-size: 0.85em;
 }
 
-.horario-table th,
-.siglas-table th {
+.horario-table th, .siglas-table th {
     background-color: #e6e6fa; 
     color: var(--color-text-dark);
     font-weight: bold;
@@ -207,8 +199,7 @@ h1 {
 .OPT { background-color: var(--OPT); }
 
 /* Efecto Hover para interactividad */
-.horario-table td:not(.time-slot):hover,
-.siglas-table tbody td:hover {
+.horario-table td:not(.time-slot):hover, .siglas-table tbody td:hover {
     filter: brightness(0.95);
     cursor: pointer;
 }
@@ -229,21 +220,11 @@ h1 {
 }
 
 @media (max-width: 850px) {
-    body {
-        padding: 5px;
-    }
-    .horario-container {
-        padding: 10px;
-    }
-    .horario-table {
-        display: none;
-    }
-    .horario-movil {
-        display: block;
-    }
-    .siglas-table {
-        font-size: 0.8em;
-    }
+    body {padding: 5px;}
+    .horario-container {padding: 10px;}
+    .horario-table {display: none;}
+    .horario-movil {display: block;}
+    .siglas-table {font-size: 0.8em;}
 
     .dia-bloque {
         border: 1px solid var(--color-border);
