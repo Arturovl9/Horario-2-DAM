@@ -33,56 +33,26 @@
                 <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--IPE-II)"></span>Itinerario personal para la empleabilidad II</span>
                 <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--PMDM)"></span>Programación multimedia y dispositivos móviles</span>
                 <span class="leyenda-item"><span class="leyenda-color" style="background-color:#9a031e"></span>Examen Final</span>
+                <span class="leyenda-item"><span class="leyenda-color" style="background-color:#f4978e"></span>Presentación</span>
             </div>
-
-            <!-- Añadir un examen o presentación nuevo sin tocar el código -->
-            <div class="anadir-examen">
-                <button id="btn-mostrar-form" class="btn-anadir" onclick="mostrarFormulario()">+ Añadir examen / presentación</button>
-                <form id="form-examen" class="form-examen" style="display:none" onsubmit="return anadirExamen(event)" netlify>
-                    <h3 id="form-titulo-modo" class="form-titulo-modo">Nuevo examen / presentación</h3>
-                    <div class="form-fila">
-                        <label>Asignatura
-                            <select id="f-sigla" required>
-                                <option value="AD">AD</option>
-                                <option value="DI">DI</option>
-                                <option value="IPGS">IPGS</option>
-                                <option value="IPE-II">IPE-II</option>
-                                <option value="OPT">OPT</option>
-                                <option value="PI">PI</option>
-                                <option value="PMDM">PMDM</option>
-                                <option value="PSP">PSP</option>
-                                <option value="SGE">SGE</option>
-                            </select>
-                        </label>
-                        <label>Fecha
-                            <input type="date" id="f-fecha" required>
-                        </label>
-                    </div>
-                    <div class="form-fila">
-                        <label>Título
-                            <input type="text" id="f-titulo" placeholder="Ej: Examen Tema 3" required>
-                        </label>
-                    </div>
-                    <div class="form-fila">
-                        <label class="form-check"><input type="checkbox" id="f-final"> Es examen final</label>
-                        <label class="form-check"><input type="checkbox" id="f-presentacion"> Es presentación</label>
-                    </div>
-                    <div class="form-botones">
-                        <button type="button" id="btn-eliminar-examen" class="btn-eliminar" style="display:none" onclick="eliminarDesdeFormulario()">Eliminar</button>
-                        <button type="button" class="btn-cancelar" onclick="ocultarFormulario()">Cancelar</button>
-                        <button type="submit" id="btn-guardar-examen" class="btn-guardar">Guardar</button>
-                    </div>
-                </form>
-            </div>
-
             <!--
-                Calendario 100% estático (HTML + CSS Grid): cada tarjeta de
-                semana y cada bloque de examen está escrito aquí a mano.
-                Para añadir un examen nuevo, copia un ".examen-bloque" de
-                ejemplo dentro de la semana que corresponda y ajusta:
-                - grid-column: 2=Lunes, 3=Martes, 4=Miércoles, 5=Jueves, 6=Viernes
-                - grid-row: la franja (1 a 6) donde empieza / span nº de franjas que ocupa
-                - la clase (PMDM, DI, PI... o "final"/"presentacion" para el color)
+                Estructura de semanas 100% estática (HTML + CSS Grid): cada
+                tarjeta de semana con sus fechas se escribe aquí a mano, una
+                vez por curso.
+
+                Los EXÁMENES en sí ya NO se escriben a mano aquí: se colocan
+                solos, en JavaScript, a partir del mismo objeto "examenes"
+                que usan los popups de la página "Asignatura/Siglas" (está
+                definido en script.js). Es decir: para añadir, cambiar o
+                quitar un examen del código basta con editar ese objeto en
+                script.js UNA sola vez, y aparece a la vez aquí y en el
+                popup correspondiente. La función que los coloca es
+                "cargarExamenesDelCodigo()", más abajo en esta misma página.
+
+                (El botón "+ Añadir examen/presentación" de arriba sigue
+                sirviendo para que cada usuario apunte sus propios exámenes
+                sueltos desde el navegador, sin tocar código; esos sí se
+                guardan aparte, en localStorage.)
             -->
             <div class="examenes-calendario">
                 <h2 class="trimestre-titulo">1er Trimestre</h2>
@@ -481,18 +451,29 @@
             // Crea el <div class="examen-bloque"> en el DOM, en la posición
             // ya calculada. Solo los exámenes añadidos por el usuario (los
             // que tienen "id") llevan data-id y se pueden volver a editar.
-            function crearBloqueEnDOM(ex, pos) {
+            // Crea el <div class="examen-bloque"> en el DOM, en la posición
+            // ya calculada.
+            // "opciones.editable" (true por defecto) diferencia dos tipos:
+            //  - true  -> examen añadido desde el formulario (usuario): lleva
+            //             el borde discontinuo, cursor de "click" y se puede
+            //             abrir para editar/eliminar (se guarda en localStorage).
+            //  - false -> examen que viene ya escrito en el objeto "examenes"
+            //             de script.js: se ve fijo, sin borde discontinuo y
+            //             sin click, porque para cambiarlo hay que editar el
+            //             código, no el formulario.
+            function crearBloqueEnDOM(ex, pos, opciones = {}) {
+                const editable = opciones.editable !== false;
                 const clase = ex.esFinal ? 'final' : (ex.esPresentacion ? 'presentacion' : ex.sigla);
                 const texto = ex.esPresentacion ? `Pres. ${ex.sigla}` : (ex.esFinal ? `${ex.sigla} Final` : ex.sigla);
 
                 const bloqueExamen = document.createElement('div');
-                bloqueExamen.className = 'examen-bloque anadido ' + clase;
+                bloqueExamen.className = 'examen-bloque ' + clase + (editable ? ' anadido' : '');
                 bloqueExamen.style.gridColumn = pos.diaSemana + 1; // Lunes(1)->col2 ... Viernes(5)->col6
                 bloqueExamen.style.gridRow = `${pos.franja.inicio} / span ${pos.franja.fin - pos.franja.inicio + 1}`;
-                bloqueExamen.title = ex.titulo + ' (clic para editar o eliminar)';
-                bloqueExamen.dataset.id = ex.id;
+                bloqueExamen.title = ex.titulo + (editable ? ' (clic para editar o eliminar)' : '');
+                if (ex.id) bloqueExamen.dataset.id = ex.id;
                 bloqueExamen.textContent = texto;
-                bloqueExamen.onclick = () => abrirEdicion(ex.id);
+                if (editable) bloqueExamen.onclick = () => abrirEdicion(ex.id);
 
                 pos.bloqueSemana.querySelector('.semana-cuerpo').appendChild(bloqueExamen);
             }
@@ -611,8 +592,42 @@
                 ocultarFormulario();
             }
 
-            // Al cargar la página, volvemos a pintar los exámenes añadidos
-            // a mano en visitas anteriores (solo se ven en este navegador).
+            /* =====================================================
+               EXÁMENES ESCRITOS EN EL CÓDIGO (script.js)
+               Recorre el mismo objeto "examenes" que usan los popups de
+               "Asignatura/Siglas" y coloca un bloque en el calendario por
+               cada uno, en la semana/día/franja que le toque según
+               "horarioSemanal". Si la fecha cae en una semana que no está
+               dibujada en el HTML, simplemente no se pinta (no hace falta
+               avisar con un alert, a diferencia de cuando lo añade el
+               usuario a mano desde el formulario).
+
+               "esFinal" y "esPresentacion" se deducen del propio texto,
+               así en script.js solo hay que escribir el título/tipo del
+               examen tal cual, sin campos extra.
+               ===================================================== */
+            function cargarExamenesDelCodigo() {
+                Object.keys(examenes).forEach(sigla => {
+                    examenes[sigla].forEach(ex => {
+                        const exCalendario = {
+                            sigla,
+                            fecha: ex.fecha,
+                            titulo: ex.titulo,
+                            esFinal: /final/i.test(ex.titulo),
+                            esPresentacion: /presentaci/i.test(ex.tipo || '') || /presentaci/i.test(ex.titulo)
+                        };
+                        const pos = calcularPosicion(exCalendario);
+                        if (pos) crearBloqueEnDOM(exCalendario, pos, { editable: false });
+                    });
+                });
+            }
+
+            // Al cargar la página: primero se pintan los exámenes fijos del
+            // código (la base del calendario) y luego, encima, los que cada
+            // usuario haya añadido a mano en visitas anteriores desde este
+            // mismo navegador.
+            cargarExamenesDelCodigo();
+
             (function cargarGuardados() {
                 obtenerGuardados().forEach(ex => {
                     const pos = calcularPosicion(ex);

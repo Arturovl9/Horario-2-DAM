@@ -114,11 +114,14 @@
             };
 
             /* =====================================================
-               DATOS DE LOS EXÁMENES (solo para el popup)
-               OJO: el calendario visual de examenes.html es HTML estático,
-               así que estas mismas fechas están escritas también allí a
-               mano. Si añades/cambias un examen, hazlo en los DOS sitios
-               para que no queden desincronizados.
+               DATOS DE LOS EXÁMENES
+               Esta es la ÚNICA lista de exámenes de código: se usa tanto
+               para el popup de cada asignatura (Asignatura/Siglas) como
+               para colocar los bloques en el Calendario de Exámenes
+               (examenes.html los coloca solo, con la función
+               "cargarExamenesDelCodigo()" que hay en esa página).
+               Para añadir, cambiar o borrar un examen basta con editarlo
+               aquí; no hace falta tocar nada más.
                ===================================================== */
             const examenes = {
                 AD: [],
