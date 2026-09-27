@@ -122,9 +122,16 @@
                mismo archivo, los coloca sola).
                Para añadir, cambiar o borrar un examen basta con editarlo
                aquí; no hace falta tocar nada más.
-               ===================================================== */
+            ===================================================== */
             const examenes = {
+                'IPE-II': [],
+                SGE: [],
                 AD: [],
+                IPGS: [
+                    { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
+                    { fecha: '2026-11-18', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
+                    { fecha: '2026-12-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
+                ],
                 DI: [
                     { fecha: '2026-10-21', hora: '16:25', titulo: 'Examen Tema 1 - Interfaces con editores visuales', tipo: 'Teórico-práctico' },
                     { fecha: '2026-11-18', hora: '16:25', titulo: 'Examen Tema 2 - Interfaces basadas en XML', tipo: 'Teórico-práctico' },
@@ -133,12 +140,7 @@
                     { fecha: '2027-01-27', hora: '16:25', titulo: 'Examen Tema 4 - Usabilidad de interfaces', tipo: 'Teórico-práctico' },
                     { fecha: '2027-02-17', hora: '16:25', titulo: 'Examen Tema 5 - Informes y Final', tipo: 'Teórico-práctico' }
                 ],
-                IPGS: [
-                    { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
-                    { fecha: '2026-11-18', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
-                    { fecha: '2026-12-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
-                ],
-                'IPE-II': [],
+                
                 PMDM: [
                     { fecha: '2026-10-13', hora: '17:20', titulo: 'Examen Tema 1 - Tecnologías móviles', tipo: 'Teórico-práctico' },
                     { fecha: '2026-11-10', hora: '17:20', titulo: 'Examen Tema 2 - Interfaz y eventos en Android', tipo: 'Teórico-práctico' },
@@ -153,8 +155,7 @@
                 ],
                 OPT: [
                     { fecha: '2026-10-02', hora: '15:30', titulo: 'Examen Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Teórico' }
-                ],
-                SGE: []
+                ]
             };
 
             /* Evita que un texto con < o & rompa el HTML */
@@ -224,134 +225,26 @@
             }
 
             /* =====================================================
-               CALENDARIO DE EXÁMENES (examenes.html)
-               Todo lo que necesita esa página vive aquí, en script.js,
-               para no tener que repetir un <script> propio en el HTML.
-               Si esta página no tiene calendario (index.html,
-               asignaturas.html), las funciones de abajo simplemente no
-               encuentran nada que hacer y no pasa nada.
+               POPUP DE UN EXAMEN (Calendario de Exámenes)
+               Los bloques del calendario están escritos a mano en
+               examenes.html y cada uno llama a abrirPopupExamen(sigla, tema)
+               al pulsarlo. Aquí solo se busca el profesor/a en "modulos"
+               (arriba en este archivo) y se muestra junto al tema que ya
+               viene indicado en el propio bloque.
                ===================================================== */
-
-            // Igual que el horario de index.html: 6 franjas por día. Sirve
-            // para saber qué horas ocupa cada asignatura ese día concreto.
-            const horarioSemanal = {
-                Lunes:       ['AD', 'AD', 'SGE', 'SGE', 'SGE', 'SGE'],
-                Martes:      ['AD', 'PMDM', 'PMDM', 'DI', 'DI', 'DI'],
-                'Miércoles': ['IPGS', 'IPGS', 'PMDM', 'DI', 'DI', 'DI'],
-                Jueves:      ['AD', 'PI', 'PI', 'IPE-II', 'IPE-II', 'IPE-II'],
-                Viernes:     ['OPT', 'OPT', 'OPT', 'PSP', 'PSP', 'PSP']
-            };
-            const nombresDias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
-
-            // Busca en qué franjas (1 a 6) tiene clase esa sigla ese día,
-            // y devuelve el bloque continuo que ocupa.
-            function bloqueHorario(dia, sigla) {
-                const franjas = horarioSemanal[dia];
-                if (!franjas) return null;
-                const inicio = franjas.indexOf(sigla);
-                if (inicio === -1) return null;
-                let fin = inicio;
-                while (fin + 1 < franjas.length && franjas[fin + 1] === sigla) fin++;
-                return { inicio: inicio + 1, fin: fin + 1 };
-            }
-
-            // Calcula dónde debería ir un examen (día de la semana, franjas
-            // horarias y tarjeta de semana) a partir de su fecha y su
-            // sigla. Devuelve null si la fecha/asignatura no encajan en el
-            // horario o no hay una semana visible en el calendario para
-            // esa fecha.
-            function calcularPosicionExamen(ex) {
-                const [a, m, d] = ex.fecha.split('-').map(Number);
-                const fechaObj = new Date(a, m - 1, d);
-                const diaSemana = fechaObj.getDay(); // 0=Domingo ... 6=Sábado
-                if (diaSemana < 1 || diaSemana > 5) return null;
-
-                const dia = nombresDias[diaSemana - 1];
-                const franja = bloqueHorario(dia, ex.sigla);
-                if (!franja) return null;
-
-                const lunesSemana = new Date(fechaObj);
-                lunesSemana.setDate(lunesSemana.getDate() - (diaSemana - 1));
-
-                const bloqueSemana = [...document.querySelectorAll('.semana-bloque')].find(bloque => {
-                    const spanLunes = bloque.querySelectorAll('.semana-fechas span')[1];
-                    if (!spanLunes) return false;
-                    const [dd, mm] = spanLunes.textContent.split('/').map(Number);
-                    return dd === lunesSemana.getDate() && (mm - 1) === lunesSemana.getMonth();
-                });
-                if (!bloqueSemana) return null;
-
-                return { diaSemana, franja, bloqueSemana };
-            }
-
-            // Crea el <div class="examen-bloque"> en el DOM, en la posición
-            // ya calculada, y lo deja preparado para abrir su popup al
-            // pulsarlo.
-            function crearBloqueExamenEnDOM(ex, pos) {
-                const clase = ex.esFinal ? 'final' : (ex.esPresentacion ? 'presentacion' : ex.sigla);
-                const texto = ex.esPresentacion ? `Pres. ${ex.sigla}` : (ex.esFinal ? `${ex.sigla} Final` : ex.sigla);
-
-                const bloqueExamen = document.createElement('div');
-                bloqueExamen.className = 'examen-bloque ' + clase;
-                bloqueExamen.style.gridColumn = pos.diaSemana + 1; // Lunes(1)->col2 ... Viernes(5)->col6
-                bloqueExamen.style.gridRow = `${pos.franja.inicio} / span ${pos.franja.fin - pos.franja.inicio + 1}`;
-                bloqueExamen.title = ex.titulo + ' (clic para ver el tema)';
-                bloqueExamen.textContent = texto;
-                bloqueExamen.onclick = () => abrirPopupExamenFijo(ex);
-
-                pos.bloqueSemana.querySelector('.semana-cuerpo').appendChild(bloqueExamen);
-            }
-
-            // Recorre el objeto "examenes" de aquí arriba y coloca un
-            // bloque en el calendario por cada uno. Si esta página no
-            // tiene calendario, no hay ".examenes-calendario" y no hace
-            // falta seguir.
-            function cargarExamenesDelCodigo() {
-                if (!document.querySelector('.examenes-calendario')) return;
-
-                Object.keys(examenes).forEach(sigla => {
-                    examenes[sigla].forEach(ex => {
-                        const exCalendario = {
-                            sigla,
-                            fecha: ex.fecha,
-                            hora: ex.hora,
-                            tipo: ex.tipo,
-                            titulo: ex.titulo,
-                            esFinal: /final/i.test(ex.titulo),
-                            esPresentacion: /presentaci/i.test(ex.tipo || '') || /presentaci/i.test(ex.titulo)
-                        };
-                        const pos = calcularPosicionExamen(exCalendario);
-                        if (pos) crearBloqueExamenEnDOM(exCalendario, pos);
-                    });
-                });
-            }
-            cargarExamenesDelCodigo();
-
-            /* ---------- Popup de detalle de un examen (examenes.html) ---------- */
-            // Reutiliza "modulos", "formatearFecha" y "escaparHTML", que ya
-            // están definidos más arriba en este mismo archivo.
-            function abrirPopupExamenFijo(ex) {
+            function abrirPopupExamen(sigla, tema) {
                 const overlay = document.getElementById('overlay-examen');
                 if (!overlay) return;
 
-                const modulo = modulos[ex.sigla];
+                const modulo = modulos[sigla];
 
                 const titulo = document.getElementById('popup-examen-titulo');
-                titulo.textContent = modulo ? `${ex.sigla} · ${modulo.nombre}` : ex.sigla;
-                titulo.style.backgroundColor = `var(--${ex.sigla})`;
-
-                // Mismo truco que en el popup de Asignatura/Siglas: guardamos
-                // el color de la asignatura en una variable CSS del popup.
-                overlay.querySelector('.popup').style.setProperty('--popup-color', `var(--${ex.sigla})`);
+                titulo.textContent = sigla;
+                titulo.style.backgroundColor = `var(--${sigla})`;
+                overlay.querySelector('.popup').style.setProperty('--popup-color', `var(--${sigla})`);
 
                 document.getElementById('popup-examen-profesor').textContent = modulo ? `Profesor/a: ${modulo.profesor}` : '';
-
-                const tipoTexto = ex.esFinal ? 'Examen final' : (ex.esPresentacion ? 'Presentación' : (ex.tipo || 'Examen'));
-                document.getElementById('popup-examen-detalle').innerHTML = `
-                    <p class="examen-fecha">${formatearFecha(ex.fecha)}${ex.hora ? ' · ' + escaparHTML(ex.hora) : ''}</p>
-                    <p class="examen-tipo">${escaparHTML(tipoTexto)}</p>
-                    <p class="popup-examen-tema"><strong>${escaparHTML(ex.titulo)}</strong></p>
-                `;
+                document.getElementById('popup-examen-tema').textContent = `${tema}`;
 
                 overlay.style.display = 'flex';
             }
@@ -362,8 +255,7 @@
             }
 
             // Cerrar cualquiera de los dos popups con la tecla Escape
-            // (cada función comprueba antes si su overlay existe en esta
-            // página, así que no pasa nada si solo hay uno de los dos).
+            // (cada función comprueba si su overlay existe en esta página).
             document.addEventListener('keydown', e => {
                 if (e.key !== 'Escape') return;
                 cerrarPopup();
