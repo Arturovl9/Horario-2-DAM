@@ -320,6 +320,7 @@ h1 {
     .examen-tipo { font-size: 0.85em; color: #777; }
     .examen.pasado { opacity: 0.55; }
     .examen-tag { font-size: 0.75em; font-weight: bold; color: #693d3d; text-transform: uppercase; }
+    .popup-examen-tema { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--color-border); }
 /* --------------- Página de Calendario de Exámenes --------------- */
 .leyenda {
     display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
@@ -378,14 +379,11 @@ h1 {
     align-items: center; justify-content: center; text-align: center;
     font-size: 0.55em; font-weight: bold; line-height: 1;
     overflow: hidden; color: #333; padding: 1px;
-}
-.examen-bloque.final { background-color: #9a031e; color: #fff; }
-.examen-bloque.presentacion { background-color: #f4978e; color: #5c1a1a; }
-.examen-bloque.anadido {
-    border: 1px dashed rgba(0,0,0,0.45);
     cursor: pointer;
 }
-.examen-bloque.anadido:hover { filter: brightness(0.92); }
+.examen-bloque:hover { filter: brightness(0.92); }
+.examen-bloque.final { background-color: #9a031e; color: #fff; }
+.examen-bloque.presentacion { background-color: #f4978e; color: #5c1a1a; }
 .IPGS { background-color: var(--IPGS); }
 .AD { background-color: var(--AD); }
 .DI { background-color: var(--DI); }
@@ -407,57 +405,3 @@ h1 {
     .hora-label { font-size: 0.5em; }
     .examen-bloque { font-size: 0.5em; }
 }
-
-/* --------------- Formulario "Añadir examen / presentación" --------------- */
-.anadir-examen { text-align: center; margin: 6px 0 22px; }
-
-.btn-anadir {
-    background: #05639D; color: #fff; border: none;
-    padding: 9px 18px; border-radius: 20px;
-    font-size: 0.85em; font-family: inherit; cursor: pointer;
-}
-.btn-anadir:hover { background: #034771; }
-
-.form-examen {
-    display: flex; flex-direction: column; gap: 12px;
-    max-width: 480px; margin: 14px auto 0; padding: 16px;
-    border: 1px solid var(--color-border); border-radius: 10px;
-    background: var(--color-bg-light); text-align: left;
-}
-
-.form-titulo-modo { margin: 0; font-size: 1em; color: #4a4a68; }
-
-.form-fila { display: flex; flex-wrap: wrap; gap: 12px; }
-
-.form-fila label {
-    display: flex; flex-direction: column; gap: 4px;
-    font-size: 0.8em; color: #555; flex: 1; min-width: 140px;
-}
-
-.form-fila input, .form-fila select {
-    padding: 7px 8px; border: 1px solid var(--color-border);
-    border-radius: 6px; font-size: 0.9em; font-family: inherit;
-}
-
-.form-check {
-    flex-direction: row !important;
-    align-items: center; gap: 6px !important;
-}
-.form-check input { width: auto; }
-
-.form-botones { display: flex; gap: 10px; justify-content: flex-end; }
-
-.btn-guardar {
-    background: #2a9d8f; color: #fff; border: none;
-    padding: 7px 18px; border-radius: 6px; cursor: pointer; font-family: inherit;
-}
-.btn-cancelar {
-    background: #e0e0e0; color: #555; border: none;
-    padding: 7px 18px; border-radius: 6px; cursor: pointer; font-family: inherit;
-}
-.btn-eliminar {
-    background: #fff; color: #c1121f; border: 1px solid #c1121f;
-    padding: 7px 18px; border-radius: 6px; cursor: pointer; font-family: inherit;
-    margin-right: auto;
-}
-.btn-eliminar:hover { background: #c1121f; color: #fff; }

@@ -19,6 +19,19 @@
                 </nav>
             </header>
 
+            <!-- Popup con el detalle de un examen o presentación fijo del
+                 calendario (los que vienen del objeto "examenes" de
+                 script.js). Los añadidos a mano por el usuario siguen
+                 abriendo el formulario de edición de más abajo. -->
+            <div id="overlay-examen" class="overlay" onclick="cerrarPopupExamen()">
+                <div class="popup" onclick="event.stopPropagation()">
+                    <span class="cerrar" onclick="cerrarPopupExamen()">&times;</span>
+                    <h2 id="popup-examen-titulo"></h2>
+                    <p id="popup-examen-profesor" class="popup-profesor"></p>
+                    <div id="popup-examen-detalle"></div>
+                </div>
+            </div>
+
             <h1>Calendario de Exámenes</h1>
             <p class="subtitle">2º DAM · Curso 2026/2027</p>
 
@@ -35,25 +48,7 @@
                 <span class="leyenda-item"><span class="leyenda-color" style="background-color:#9a031e"></span>Examen Final</span>
                 <span class="leyenda-item"><span class="leyenda-color" style="background-color:#f4978e"></span>Presentación</span>
             </div>
-            <!--
-                Estructura de semanas 100% estática (HTML + CSS Grid): cada
-                tarjeta de semana con sus fechas se escribe aquí a mano, una
-                vez por curso.
-
-                Los EXÁMENES en sí ya NO se escriben a mano aquí: se colocan
-                solos, en JavaScript, a partir del mismo objeto "examenes"
-                que usan los popups de la página "Asignatura/Siglas" (está
-                definido en script.js). Es decir: para añadir, cambiar o
-                quitar un examen del código basta con editar ese objeto en
-                script.js UNA sola vez, y aparece a la vez aquí y en el
-                popup correspondiente. La función que los coloca es
-                "cargarExamenesDelCodigo()", más abajo en esta misma página.
-
-                (El botón "+ Añadir examen/presentación" de arriba sigue
-                sirviendo para que cada usuario apunte sus propios exámenes
-                sueltos desde el navegador, sin tocar código; esos sí se
-                guardan aparte, en localStorage.)
-            -->
+            
             <div class="examenes-calendario">
                 <h2 class="trimestre-titulo">1er Trimestre</h2>
                 <div class="semanas-grid">
@@ -385,256 +380,6 @@
         </div>
 
         <script src="script.js"></script>
-
-        <!--
-            Script propio de esta página: coloca en el calendario (ya
-            escrito a mano arriba) el examen o presentación que se añada
-            desde el formulario, y lo recuerda en este navegador para que
-            siga apareciendo la próxima vez que se abra la página.
-        -->
-        <script>
-            // Igual que el horario de index.html: 6 franjas por día. Sirve
-            // para saber qué horas ocupa cada asignatura ese día concreto.
-            const horarioSemanal = {
-                Lunes:       ['AD', 'AD', 'SGE', 'SGE', 'SGE', 'SGE'],
-                Martes:      ['AD', 'PMDM', 'PMDM', 'DI', 'DI', 'DI'],
-                'Miércoles': ['IPGS', 'IPGS', 'PMDM', 'DI', 'DI', 'DI'],
-                Jueves:      ['AD', 'PI', 'PI', 'IPE-II', 'IPE-II', 'IPE-II'],
-                Viernes:     ['OPT', 'OPT', 'OPT', 'PSP', 'PSP', 'PSP']
-            };
-            const nombresDias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
-
-            // Id del examen que se está editando ahora mismo (null = se está
-            // creando uno nuevo, no editando).
-            let editandoId = null;
-
-            // Busca en qué franjas (1 a 6) tiene clase esa sigla ese día,
-            // y devuelve el bloque continuo que ocupa.
-            function bloqueHorario(dia, sigla) {
-                const franjas = horarioSemanal[dia];
-                if (!franjas) return null;
-                const inicio = franjas.indexOf(sigla);
-                if (inicio === -1) return null;
-                let fin = inicio;
-                while (fin + 1 < franjas.length && franjas[fin + 1] === sigla) fin++;
-                return { inicio: inicio + 1, fin: fin + 1 };
-            }
-
-            // Calcula dónde debería ir un examen (día de la semana, franjas
-            // horarias y tarjeta de semana) SIN tocar el DOM ni el
-            // localStorage. Devuelve null si la fecha/asignatura no encajan
-            // en el horario o no hay una semana visible para esa fecha.
-            function calcularPosicion(ex) {
-                const [a, m, d] = ex.fecha.split('-').map(Number);
-                const fechaObj = new Date(a, m - 1, d);
-                const diaSemana = fechaObj.getDay(); // 0=Domingo ... 6=Sábado
-                if (diaSemana < 1 || diaSemana > 5) return null;
-
-                const dia = nombresDias[diaSemana - 1];
-                const franja = bloqueHorario(dia, ex.sigla);
-                if (!franja) return null;
-
-                const lunesSemana = new Date(fechaObj);
-                lunesSemana.setDate(lunesSemana.getDate() - (diaSemana - 1));
-
-                const bloqueSemana = [...document.querySelectorAll('.semana-bloque')].find(bloque => {
-                    const spanLunes = bloque.querySelectorAll('.semana-fechas span')[1];
-                    if (!spanLunes) return false;
-                    const [dd, mm] = spanLunes.textContent.split('/').map(Number);
-                    return dd === lunesSemana.getDate() && (mm - 1) === lunesSemana.getMonth();
-                });
-                if (!bloqueSemana) return null;
-
-                return { diaSemana, franja, bloqueSemana };
-            }
-
-            // Crea el <div class="examen-bloque"> en el DOM, en la posición
-            // ya calculada. Solo los exámenes añadidos por el usuario (los
-            // que tienen "id") llevan data-id y se pueden volver a editar.
-            // Crea el <div class="examen-bloque"> en el DOM, en la posición
-            // ya calculada.
-            // "opciones.editable" (true por defecto) diferencia dos tipos:
-            //  - true  -> examen añadido desde el formulario (usuario): lleva
-            //             el borde discontinuo, cursor de "click" y se puede
-            //             abrir para editar/eliminar (se guarda en localStorage).
-            //  - false -> examen que viene ya escrito en el objeto "examenes"
-            //             de script.js: se ve fijo, sin borde discontinuo y
-            //             sin click, porque para cambiarlo hay que editar el
-            //             código, no el formulario.
-            function crearBloqueEnDOM(ex, pos, opciones = {}) {
-                const editable = opciones.editable !== false;
-                const clase = ex.esFinal ? 'final' : (ex.esPresentacion ? 'presentacion' : ex.sigla);
-                const texto = ex.esPresentacion ? `Pres. ${ex.sigla}` : (ex.esFinal ? `${ex.sigla} Final` : ex.sigla);
-
-                const bloqueExamen = document.createElement('div');
-                bloqueExamen.className = 'examen-bloque ' + clase + (editable ? ' anadido' : '');
-                bloqueExamen.style.gridColumn = pos.diaSemana + 1; // Lunes(1)->col2 ... Viernes(5)->col6
-                bloqueExamen.style.gridRow = `${pos.franja.inicio} / span ${pos.franja.fin - pos.franja.inicio + 1}`;
-                bloqueExamen.title = ex.titulo + (editable ? ' (clic para editar o eliminar)' : '');
-                if (ex.id) bloqueExamen.dataset.id = ex.id;
-                bloqueExamen.textContent = texto;
-                if (editable) bloqueExamen.onclick = () => abrirEdicion(ex.id);
-
-                pos.bloqueSemana.querySelector('.semana-cuerpo').appendChild(bloqueExamen);
-            }
-
-            // Intenta colocar un examen añadido a mano; si no encaja, avisa
-            // con un alert y no toca nada. Devuelve true/false.
-            function colocarExamen(ex) {
-                const pos = calcularPosicion(ex);
-                if (!pos) {
-                    alert('Esa fecha/asignatura no encaja en el horario, o no hay una semana visible en el calendario para esa fecha.');
-                    return false;
-                }
-                crearBloqueEnDOM(ex, pos);
-                return true;
-            }
-
-            /* ---------- Guardado en localStorage (solo en este navegador) ---------- */
-            function obtenerGuardados() {
-                try {
-                    return JSON.parse(localStorage.getItem('examenesAnadidos') || '[]');
-                } catch (e) {
-                    return [];
-                }
-            }
-            function guardarTodos(lista) {
-                try {
-                    localStorage.setItem('examenesAnadidos', JSON.stringify(lista));
-                } catch (e) {
-                    // Si el navegador bloquea localStorage, el examen se ve
-                    // igualmente ahora, pero no se recordará al recargar.
-                }
-            }
-
-            /* ---------- Formulario: añadir / editar / eliminar ---------- */
-            function mostrarFormulario() {
-                editandoId = null;
-                document.getElementById('form-examen').reset();
-                document.getElementById('form-titulo-modo').textContent = 'Nuevo examen / presentación';
-                document.getElementById('btn-guardar-examen').textContent = 'Guardar';
-                document.getElementById('btn-eliminar-examen').style.display = 'none';
-                document.getElementById('form-examen').style.display = 'flex';
-                document.getElementById('btn-mostrar-form').style.display = 'none';
-            }
-
-            function ocultarFormulario() {
-                editandoId = null;
-                document.getElementById('form-examen').style.display = 'none';
-                document.getElementById('btn-mostrar-form').style.display = 'inline-block';
-                document.getElementById('form-examen').reset();
-            }
-
-            // Se llama al hacer clic en un examen ya añadido: rellena el
-            // formulario con sus datos actuales para poder cambiarlos.
-            function abrirEdicion(id) {
-                const ex = obtenerGuardados().find(e => e.id === id);
-                if (!ex) return;
-
-                editandoId = id;
-                document.getElementById('f-sigla').value = ex.sigla;
-                document.getElementById('f-fecha').value = ex.fecha;
-                document.getElementById('f-titulo').value = ex.titulo;
-                document.getElementById('f-final').checked = !!ex.esFinal;
-                document.getElementById('f-presentacion').checked = !!ex.esPresentacion;
-
-                document.getElementById('form-titulo-modo').textContent = 'Editar examen / presentación';
-                document.getElementById('btn-guardar-examen').textContent = 'Guardar cambios';
-                document.getElementById('btn-eliminar-examen').style.display = 'inline-block';
-                document.getElementById('form-examen').style.display = 'flex';
-                document.getElementById('btn-mostrar-form').style.display = 'none';
-            }
-
-            function anadirExamen(evento) {
-                evento.preventDefault();
-
-                const datos = {
-                    sigla: document.getElementById('f-sigla').value,
-                    fecha: document.getElementById('f-fecha').value, // AAAA-MM-DD
-                    titulo: document.getElementById('f-titulo').value.trim(),
-                    esFinal: document.getElementById('f-final').checked,
-                    esPresentacion: document.getElementById('f-presentacion').checked
-                };
-                if (!datos.fecha || !datos.titulo) return false;
-
-                if (editandoId) {
-                    // Comprobamos que la nueva fecha/asignatura encaja ANTES
-                    // de tocar nada, para no perder el examen si no encaja.
-                    const pos = calcularPosicion(datos);
-                    if (!pos) {
-                        alert('Esa fecha/asignatura no encaja en el horario, o no hay una semana visible en el calendario para esa fecha.');
-                        return false;
-                    }
-                    datos.id = editandoId;
-                    document.querySelectorAll(`.examen-bloque[data-id="${editandoId}"]`).forEach(el => el.remove());
-                    crearBloqueEnDOM(datos, pos);
-                    guardarTodos(obtenerGuardados().map(e => e.id === editandoId ? datos : e));
-                } else {
-                    datos.id = 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-                    if (!colocarExamen(datos)) return false;
-                    const lista = obtenerGuardados();
-                    lista.push(datos);
-                    guardarTodos(lista);
-                }
-
-                ocultarFormulario();
-                return false;
-            }
-
-            // Botón "Eliminar" dentro del formulario, en modo edición.
-            function eliminarDesdeFormulario() {
-                if (!editandoId) return;
-                if (!confirm('¿Seguro que quieres eliminar este examen/presentación?')) return;
-
-                document.querySelectorAll(`.examen-bloque[data-id="${editandoId}"]`).forEach(el => el.remove());
-                guardarTodos(obtenerGuardados().filter(e => e.id !== editandoId));
-
-                ocultarFormulario();
-            }
-
-            /* =====================================================
-               EXÁMENES ESCRITOS EN EL CÓDIGO (script.js)
-               Recorre el mismo objeto "examenes" que usan los popups de
-               "Asignatura/Siglas" y coloca un bloque en el calendario por
-               cada uno, en la semana/día/franja que le toque según
-               "horarioSemanal". Si la fecha cae en una semana que no está
-               dibujada en el HTML, simplemente no se pinta (no hace falta
-               avisar con un alert, a diferencia de cuando lo añade el
-               usuario a mano desde el formulario).
-
-               "esFinal" y "esPresentacion" se deducen del propio texto,
-               así en script.js solo hay que escribir el título/tipo del
-               examen tal cual, sin campos extra.
-               ===================================================== */
-            function cargarExamenesDelCodigo() {
-                Object.keys(examenes).forEach(sigla => {
-                    examenes[sigla].forEach(ex => {
-                        const exCalendario = {
-                            sigla,
-                            fecha: ex.fecha,
-                            titulo: ex.titulo,
-                            esFinal: /final/i.test(ex.titulo),
-                            esPresentacion: /presentaci/i.test(ex.tipo || '') || /presentaci/i.test(ex.titulo)
-                        };
-                        const pos = calcularPosicion(exCalendario);
-                        if (pos) crearBloqueEnDOM(exCalendario, pos, { editable: false });
-                    });
-                });
-            }
-
-            // Al cargar la página: primero se pintan los exámenes fijos del
-            // código (la base del calendario) y luego, encima, los que cada
-            // usuario haya añadido a mano en visitas anteriores desde este
-            // mismo navegador.
-            cargarExamenesDelCodigo();
-
-            (function cargarGuardados() {
-                obtenerGuardados().forEach(ex => {
-                    const pos = calcularPosicion(ex);
-                    if (pos) crearBloqueEnDOM(ex, pos);
-                });
-            })();
-        </script>
 
     </body>
 </html>
