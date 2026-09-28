@@ -125,7 +125,9 @@
             ===================================================== */
             const examenes = {
                 'IPE-II': [],
-                SGE: [],
+                SGE: [
+                    { fecha: '2026-10-05', hora: '17:20', titulo: 'Examen Tema 1 - Tema 1 - ERP, CRM y BI', tipo: 'Teórico-práctico' },
+                ],
                 AD: [],
                 IPGS: [
                     { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
