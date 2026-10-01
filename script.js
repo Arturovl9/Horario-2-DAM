@@ -1,264 +1,270 @@
-/*
-         * ¿QUÉ HACE ESTA FUNCIÓN?
-         * La tabla de escritorio está organizada por FILAS = horas y
-         * COLUMNAS = días. Esta función no inventa ningún dato nuevo:
-         * simplemente "lee" esa misma tabla y reorganiza la información
-         * al revés, agrupando por DÍA (para que en móvil cada día salga
-         * junto, con todas sus horas debajo, en vez de mezclar los 5 días
-         * en cada franja horaria).
-         */
-            function construirVistaMovilPorDia() {
+// ¿QUÉ HACE ESTA FUNCIÓN?
+// La tabla de escritorio está organizada por FILAS = horas y COLUMNAS = días.
+// Esta función no inventa ningún dato nuevo: simplemente "lee" esa misma tabla
+// y reorganiza la información al revés, agrupando por DÍA (para que en móvil
+// cada día salga junto, con todas sus horas debajo, en vez de mezclar los 5 días
+// en cada franja horaria).
 
-                // 1) Cogemos la tabla real del HTML (la que ve el usuario en escritorio)
-                const tabla = document.querySelector('.horario-table');
-                const contenedor = document.getElementById('horario-movil');
+function construirVistaMovilPorDia() {
 
-                // Si esta página no tiene tabla de horario o contenedor móvil
-                // (por ejemplo, "Asignatura/Siglas" o "Calendario Exámenes"),
-                // no hacemos nada. Sin este "return", el script se paraba
-                // aquí con un error y todo el código de después (modulos,
-                // examenes, abrirPopup...) nunca llegaba a ejecutarse.
-                if (!tabla || !contenedor) return;
+    // 1) Cogemos la tabla real del HTML (la que ve el usuario en escritorio)
+    const tabla = document.querySelector('.horario-table');
+    const contenedor = document.getElementById('horario-movil');
 
-                // 2) Sacamos los nombres de los días desde la cabecera <th>.
-                //    headerCells = [Hora, Lunes, Martes, Miércoles, Jueves, Viernes]
-                //    Con .slice(1) quitamos "Hora" porque no es un día.
-                const headerCells = [...tabla.querySelectorAll('thead th')];
-                const dias = headerCells.slice(1).map(th => th.textContent.trim());
-                // dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+    // Si esta página no tiene tabla de horario o contenedor móvil (por ejemplo, "Asignatura/Siglas"
+    // o "Calendario Exámenes"), no hacemos nada. Sin este "return", el script se paraba aquí con un
+    // error y todo el código de después (modulos, examenes, abrirPopup...) nunca llegaba a ejecutarse.
+    if (!tabla || !contenedor) return;
 
-                // 3) Cogemos todas las filas de horario (<tr> dentro de <tbody>)
-                //    y quitamos la fila de recreo con .filter().
-                //    tr.classList.contains('recreo-row') -> true en la fila del recreo
-                //    !... -> la negamos, así el .filter() la descarta
-                const filas = [...tabla.querySelectorAll('tbody tr')]
-                    .filter(tr => !tr.classList.contains('recreo-row'));
+    // 2) Sacamos los nombres de los días desde la cabecera <th>.
+    // headerCells = [Hora, Lunes, Martes, Miércoles, Jueves, Viernes]
+    // Con .slice(1) quitamos "Hora" porque no es un día.
+    const headerCells = [...tabla.querySelectorAll('thead th')];
+    const dias = headerCells.slice(1).map(th => th.textContent.trim());
+    // dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
 
-                // 4) Vaciamos el contenedor por si la función se ejecuta más
-                //    de una vez (por ejemplo, al redimensionar la ventana).
-                contenedor.innerHTML = '';
+    // 3) Cogemos todas las filas de horario (<tr> dentro de <tbody>) y quitamos la fila de recreo con .filter().
+    // tr.classList.contains('recreo-row') -> true en la fila del recreo !... -> la negamos, así el .filter() la descarta
+    const filas = [...tabla.querySelectorAll('tbody tr')]
+        .filter(tr => !tr.classList.contains('recreo-row'));
 
-                // 5) BUCLE PRINCIPAL: recorremos cada día.
-                //    "colIndex" es la posición del día dentro del array "dias"
-                //    (Lunes = 0, Martes = 1, Miércoles = 2...). Lo necesitamos
-                //    para saber qué columna de la tabla original le corresponde.
-                dias.forEach((dia, colIndex) => {
+    // 4) Vaciamos el contenedor por si la función se ejecuta más de una vez
+    // (por ejemplo, al redimensionar la ventana).
+    contenedor.innerHTML = '';
 
-                    // 5.1) Creamos el "bloque" del día (la tarjeta completa)
-                    const bloque = document.createElement('div');
-                    bloque.className = 'dia-bloque';
+    // 5) BUCLE PRINCIPAL: recorremos cada día.
+    // "colIndex" es la posición del día dentro del array "dias" (Lunes = 0, Martes = 1, Miércoles = 2...).
+    // Lo necesitamos para saber qué columna de la tabla original le corresponde.
+    dias.forEach((dia, colIndex) => {
 
-                    // 5.2) Le añadimos un título con el nombre del día (Lunes, Martes...)
-                    const titulo = document.createElement('h2');
-                    titulo.className = 'dia-titulo';
-                    titulo.textContent = dia;
-                    bloque.appendChild(titulo);
+        // 5.1) Creamos el "bloque" del día (la tarjeta completa)
+        const bloque = document.createElement('div');
+        bloque.className = 'dia-bloque';
 
-                    // 5.3) BUCLE INTERNO: recorremos cada fila de horario (cada hora)
-                    //      para sacar la asignatura de ESTE día en ESA hora.
-                    filas.forEach(tr => {
-                        const celdas = tr.querySelectorAll('td');
+        // 5.2) Le añadimos un título con el nombre del día (Lunes, Martes...)
+        const titulo = document.createElement('h2');
+        titulo.className = 'dia-titulo';
+        titulo.textContent = dia;
+        bloque.appendChild(titulo);
 
-                        // La primera celda (índice 0) siempre es la hora, ej: "15:30 16:25"
-                        const hora = celdas[0].textContent.trim();
+        // 5.3) BUCLE INTERNO: recorremos cada fila de horario (cada hora) para sacar la asignatura de ESTE día en ESA hora.
+        filas.forEach(tr => {
+            const celdas = tr.querySelectorAll('td');
 
-                        // La celda de la asignatura de este día está en la posición
-                        // "colIndex + 1" porque la celda 0 es la hora, así que
-                        // Lunes está en la 1, Martes en la 2, etc. (de ahí el +1)
-                        const celdaAsignatura = celdas[colIndex + 1];
+            // La primera celda (índice 0) siempre es la hora, ej: "15:30 16:25"
+            const hora = celdas[0].textContent.trim();
 
-                        // Creamos la "franja" (una fila dentro de la tarjeta del día:
-                        // hora a la izquierda, asignatura a la derecha)
-                        const franja = document.createElement('div');
-                        franja.className = 'franja';
+            // La celda de la asignatura de este día está en la posición "colIndex + 1" porque la
+            // celda 0 es la hora,así que Lunes está en la 1, Martes en la 2, etc. (de ahí el +1)
+            const celdaAsignatura = celdas[colIndex + 1];
 
-                        // Copiamos la clase de asignatura (LMSGI, SOST, ED...) que ya
-                        // tenía la celda original, para que el CSS pinte la franja
-                        // con el mismo color que en la tabla de escritorio.
-                        const claseAsignatura = [...celdaAsignatura.classList][0] || '';
-                        if (claseAsignatura) franja.classList.add(claseAsignatura);
+            // Creamos la "franja" (una fila dentro de la tarjeta del día:
+            // hora a la izquierda, asignatura a la derecha)
+            const franja = document.createElement('div');
+            franja.className = 'franja';
 
-                        // Montamos el contenido visible de la franja: hora + asignatura.
-                        // Usamos innerHTML (no textContent) porque las asignaturas
-                        // llevan un <br> dentro (ej: "LMSGI <br> Andres Alcantará").
-                        franja.innerHTML = `<span class="franja-hora">${hora}</span><span class="franja-asignatura">${celdaAsignatura.innerHTML}</span>`;
+            // Copiamos la clase de asignatura (LMSGI, SOST, ED...) que ya
+            // tenía la celda original, para que el CSS pinte la franja
+            // con el mismo color que en la tabla de escritorio.
+            const claseAsignatura = [...celdaAsignatura.classList][0] || '';
+            if (claseAsignatura) franja.classList.add(claseAsignatura);
 
-                        // Añadimos la franja terminada dentro del bloque del día
-                        bloque.appendChild(franja);
-                    });
+            // Montamos el contenido visible de la franja: hora + asignatura.
+            // Usamos innerHTML (no textContent) porque las asignaturas
+            // llevan un <br> dentro (ej: "LMSGI <br> Andres Alcantará").
+            franja.innerHTML = `<span class="franja-hora">${hora}</span><span class="franja-asignatura">${celdaAsignatura.innerHTML}</span>`;
 
-                    // 5.4) Una vez añadidas todas las franjas de ese día,
-                    //      añadimos el bloque completo al contenedor final.
-                    contenedor.appendChild(bloque);
-                });
-            }
+            // Añadimos la franja terminada dentro del bloque del día
+            bloque.appendChild(franja);
+        });
 
-            // Se ejecuta una vez nada más cargar la página...
-            construirVistaMovilPorDia();
+        // 5.4) Una vez añadidas todas las franjas de ese día,
+        //      añadimos el bloque completo al contenedor final.
+        contenedor.appendChild(bloque);
+    });
+}
 
-            // ...y se vuelve a ejecutar cada vez que cambia el tamaño de la ventana
-            // (por ejemplo, si giras el móvil o pasas de escritorio a móvil).
-            window.addEventListener('resize', construirVistaMovilPorDia);
+// Se ejecuta una vez nada más cargar la página...
+construirVistaMovilPorDia();
 
-            /* Nombre completo y profesor de cada módulo */
-            const modulos = {
-                IPGS:     { nombre: 'Inglés profesional GS', profesor: 'Alexandra Gámez Villegas' },
-                'IPE-II': { nombre: 'Itinerario personal para la empleabilidad II', profesor: 'María Lourdes Galeano Criado' },
-                SGE:      { nombre: 'Sistemas de gestión empresarial', profesor: 'Jaime Pérez Cano' },
-                AD:       { nombre: 'Acceso a datos', profesor: 'Rafael Arilla Blázquez' },
-                PSP:      { nombre: 'Programación de servicios y procesos', profesor: 'Rafael Arilla Blázquez' },
-                DI:       { nombre: 'Desarrollo de interfaces', profesor: 'José Alberto Cañete Roldán' },
-                PMDM:     { nombre: 'Programación multimedia y dispositivos móviles', profesor: 'José Alberto Cañete Roldán' },
-                PI:       { nombre: 'Proyecto Intermodular', profesor: 'Santiago Martín Palomo García' },
-                OPT:      { nombre: 'Optativa - Desarrollo Aplicaciones Web con Angular', profesor: 'Santiago Martín Palomo García' }
-            };
+// ...y se vuelve a ejecutar cada vez que cambia el tamaño de la ventana
+// (por ejemplo, si giras el móvil o pasas de escritorio a móvil).
+window.addEventListener('resize', construirVistaMovilPorDia);
 
-            /* =====================================================
-               DATOS DE LOS EXÁMENES
-               Esta es la ÚNICA lista de exámenes de código: se usa tanto
-               para el popup de cada asignatura (Asignatura/Siglas) como
-               para colocar los bloques en el Calendario de Exámenes
-               (la función "cargarExamenesDelCodigo()", más abajo en este
-               mismo archivo, los coloca sola).
-               Para añadir, cambiar o borrar un examen basta con editarlo
-               aquí; no hace falta tocar nada más.
-            ===================================================== */
-            const examenes = {
-                'IPE-II': [],
-                SGE: [
-                    { fecha: '2026-10-05', hora: '17:20', titulo: 'Examen Tema 1 - Tema 1 - ERP, CRM y BI', tipo: 'Teórico-práctico' },
-                ],
-                AD: [],
-                IPGS: [
-                    { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
-                    { fecha: '2026-11-18', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
-                    { fecha: '2026-12-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
-                ],
-                DI: [
-                    { fecha: '2026-10-21', hora: '16:25', titulo: 'Examen Tema 1 - Interfaces con editores visuales', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-11-18', hora: '16:25', titulo: 'Examen Tema 2 - Interfaces basadas en XML', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-09', hora: '16:25', titulo: 'Examen Tema 3 - Componentes visuales', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-16', hora: '16:25', titulo: 'Examen Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-01-27', hora: '16:25', titulo: 'Examen Tema 4 - Usabilidad de interfaces', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-02-17', hora: '16:25', titulo: 'Examen Tema 5 - Informes y Final', tipo: 'Teórico-práctico' }
-                ],
-                
-                PMDM: [
-                    { fecha: '2026-10-13', hora: '17:20', titulo: 'Examen Tema 1 - Tecnologías móviles', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-11-10', hora: '17:20', titulo: 'Examen Tema 2 - Interfaz y eventos en Android', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-01', hora: '17:20', titulo: 'Examen Tema 3 - Persistencia de datos', tipo: 'Teórico-práctico' },
-                    { fecha: '2026-12-15', hora: '17:20', titulo: 'Examen Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-01-26', hora: '17:20', titulo: 'Examen Tema 4 - Imagen y Audio en Android Tema 5 - Geolocalización', tipo: 'Teórico-práctico' },
-                    { fecha: '2027-02-16', hora: '17:20', titulo: 'Examen Tema 6 - Desarrollo de juegos con Unity y Final', tipo: 'Teórico-práctico' }
-                ],
-                PSP: [],
-                PI: [
-                    { fecha: '2026-10-01', hora: '17:20', titulo: 'Examen Tema 1 - ¿Qué es un Proyecto?', tipo: 'Teórico-práctico' }
-                ],
-                OPT: [
-                    { fecha: '2026-10-02', hora: '15:30', titulo: 'Examen Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Teórico' }
-                ]
-            };
+/* Nombre completo y profesor de cada módulo */
+const modulos = {
+    IPGS:     { nombre: 'Inglés profesional GS', profesor: 'Alexandra Gámez Villegas' },
+    'IPE-II': { nombre: 'Itinerario personal para la empleabilidad II', profesor: 'María Lourdes Galeano Criado' },
+    SGE:      { nombre: 'Sistemas de gestión empresarial', profesor: 'Jaime Pérez Cano' },
+    AD:       { nombre: 'Acceso a datos', profesor: 'Rafael Arilla Blázquez' },
+    PSP:      { nombre: 'Programación de servicios y procesos', profesor: 'Rafael Arilla Blázquez' },
+    DI:       { nombre: 'Desarrollo de interfaces', profesor: 'José Alberto Cañete Roldán' },
+    PMDM:     { nombre: 'Programación multimedia y dispositivos móviles', profesor: 'José Alberto Cañete Roldán' },
+    PI:       { nombre: 'Proyecto Intermodular', profesor: 'Santiago Martín Palomo García' },
+    OPT:      { nombre: 'Optativa - Desarrollo Aplicaciones Web con Angular', profesor: 'Santiago Martín Palomo García' }
+};
 
-            /* Evita que un texto con < o & rompa el HTML */
-            function escaparHTML(texto) {
-                const d = document.createElement('div');
-                d.textContent = texto;
-                return d.innerHTML;
-            }
+/* =====================================================
+    DATOS DE LOS EXÁMENES
+    Esta es la ÚNICA lista de exámenes de código: se usa tanto para el popup de cada asignatura
+    (Asignatura/Siglas) como para colocar los bloques en el Calendario de Exámenes (la función
+    "cargarExamenesDelCodigo()", más abajo en este mismo archivo, los coloca sola). Para añadir,
+    cambiar o borrar un examen basta con editarlo aquí; no hace falta tocar nada más.
+===================================================== */
+const examenes = {
+    // Itinerario Personal para la empleabilidad 2
+    'IPE-II': [
 
-            /* '2026-10-20' -> 'martes, 20 de octubre de 2026' */
-            function formatearFecha(iso) {
-                const [a, m, d] = iso.split('-').map(Number);
-                return new Date(a, m - 1, d).toLocaleDateString('es-ES', {
-                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-                });
-            }
+    ],
+    
+    // Ingles Profesional Grado Superior
+    IPGS: [
+        { fecha: '2026-10-14', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
+        { fecha: '2026-11-18', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' },
+        { fecha: '2026-12-09', hora: '15:30', titulo: 'Presentación', tipo: 'Presentación hasta donde se lleve' }
+    ],
 
-            /* El popup muestra el nombre completo del módulo, el profesor/a,
-               la lista de exámenes de esa asignatura y una franja de color
-               en la cabecera igual al color que esa asignatura tiene en
-               el horario (variable --SIGLA de styles.css). */
-            function abrirPopup(sigla) {
-                const modulo = modulos[sigla];
-                if (!modulo) return;
+    // Sistema de Gestión Empresarial
+    SGE: [
+        { fecha: '2026-10-05', hora: '17:20', titulo: 'Examen Tema 1 - Tema 1 - ERP, CRM y BI', tipo: 'Teórico-práctico' },
+    ],
 
-                const titulo = document.getElementById('popup-titulo');
-                titulo.textContent = `${sigla} · ${modulo.nombre}`;
-                titulo.style.backgroundColor = `var(--${sigla})`;
+    // Programación de Servicios y Procesos
+    PSP: [
 
-                // Guardamos el color de la asignatura en una variable CSS del
-                // propio popup, para que todo lo de dentro (el borde de cada
-                // examen, el fondo de las tarjetas...) se pinte con el mismo
-                // color en vez de con grises genéricos.
-                document.querySelector('.popup').style.setProperty('--popup-color', `var(--${sigla})`);
+    ],
+    
+    // Acceso a Datos
+    AD: [
 
-                document.getElementById('popup-profesor').textContent = `Profesor/a: ${modulo.profesor}`;
+    ],
+    
+    // Desarrollo de Interfaces
+    DI: [
+        { fecha: '2026-10-21', hora: '16:25', titulo: 'Examen Tema 1 - Interfaces con editores visuales', tipo: 'Teórico-práctico' },
+        { fecha: '2026-11-18', hora: '16:25', titulo: 'Examen Tema 2 - Interfaces basadas en XML', tipo: 'Teórico-práctico' },
+        { fecha: '2026-12-09', hora: '16:25', titulo: 'Examen Tema 3 - Componentes visuales', tipo: 'Teórico-práctico' },
+        { fecha: '2026-12-16', hora: '16:25', titulo: 'Examen Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
+        { fecha: '2027-01-27', hora: '16:25', titulo: 'Examen Tema 4 - Usabilidad de interfaces', tipo: 'Teórico-práctico' },
+        { fecha: '2027-02-17', hora: '16:25', titulo: 'Examen Tema 5 - Informes y Final', tipo: 'Teórico-práctico' }
+    ],
+    
+    // Programación Multimedia y Dispositivos Móviles
+    PMDM: [
+        { fecha: '2026-10-13', hora: '17:20', titulo: 'Examen Tema 1 - Tecnologías móviles', tipo: 'Teórico-práctico' },
+        { fecha: '2026-11-10', hora: '17:20', titulo: 'Examen Tema 2 - Interfaz y eventos en Android', tipo: 'Teórico-práctico' },
+        { fecha: '2026-12-01', hora: '17:20', titulo: 'Examen Tema 3 - Persistencia de datos', tipo: 'Teórico-práctico' },
+        { fecha: '2026-12-15', hora: '17:20', titulo: 'Examen Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
+        { fecha: '2027-01-26', hora: '17:20', titulo: 'Examen Tema 4 - Imagen y Audio en Android Tema 5 - Geolocalización', tipo: 'Teórico-práctico' },
+        { fecha: '2027-02-16', hora: '17:20', titulo: 'Examen Tema 6 - Desarrollo de juegos con Unity y Final', tipo: 'Teórico-práctico' }
+    ],
 
-                const hoy = new Date();
-                hoy.setHours(0, 0, 0, 0);
+    // Proyecto Intermodular
+    PI: [
+        { fecha: '2026-10-01', hora: '17:20', titulo: 'Examen Tema 1 - ¿Qué es un Proyecto?', tipo: 'Teórico-práctico' }
+    ],
+    
+    // Optativa -  Desarrollo de Aplicaciones Web con Angular
+    OPT: [
+        { fecha: '2026-10-02', hora: '15:30', titulo: 'Examen Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Teórico' }
+    ]
+};
 
-                // Copiamos y ordenamos por fecha (los más próximos primero)
-                const lista = [...(examenes[sigla] || [])].sort((a, b) => a.fecha.localeCompare(b.fecha));
-                const cont = document.getElementById('popup-examenes');
+/* Evita que un texto con < o & rompa el HTML */
+function escaparHTML(texto) {
+    const d = document.createElement('div');
+    d.textContent = texto;
+    return d.innerHTML;
+}
 
-                if (lista.length === 0) {
-                    cont.innerHTML = '<p class="sin-examenes">No hay exámenes añadidos para esta asignatura.</p>';
-                } else {
-                    cont.innerHTML = '<ul class="lista-examenes">' + lista.map(ex => {
-                        const [a, m, d] = ex.fecha.split('-').map(Number);
-                        const pasado = new Date(a, m - 1, d) < hoy;
-                        return `
-                            <li class="examen ${pasado ? 'pasado' : ''}">
-                                <strong>${escaparHTML(ex.titulo)}</strong>
-                                <span class="examen-fecha">${formatearFecha(ex.fecha)}${ex.hora ? ' · ' + escaparHTML(ex.hora) : ''}</span>
-                                ${ex.tipo ? `<span class="examen-tipo">${escaparHTML(ex.tipo)}</span>` : ''}
-                                ${pasado ? '<span class="examen-tag">Realizado</span>' : ''}
-                            </li>`;
-                    }).join('') + '</ul>';
-                }
+/* '2026-10-20' -> 'martes, 20 de octubre de 2026' */
+function formatearFecha(iso) {
+    const [a, m, d] = iso.split('-').map(Number);
+    return new Date(a, m - 1, d).toLocaleDateString('es-ES', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+}
 
-                document.getElementById('overlay').style.display = 'flex';
-            }
+// El popup muestra el nombre completo del módulo, el profesor/a, la lista de exámenes de esa
+// asignatura y una franja de color en la cabecera igual al color que esa asignatura tiene en
+// el horario (variable --SIGLA de styles.css).
+function abrirPopup(sigla) {
+    const modulo = modulos[sigla];
+    if (!modulo) return;
 
-            function cerrarPopup() {
-                const overlay = document.getElementById('overlay');
-                if (overlay) overlay.style.display = 'none';
-            }
+    const titulo = document.getElementById('popup-titulo');
+    titulo.textContent = `${sigla} · ${modulo.nombre}`;
+    titulo.style.backgroundColor = `var(--${sigla})`;
 
-            /* ===========================================================
-               POPUP DE UN EXAMEN (Calendario de Exámenes) los bloques
-               del calendario están escritos a mano en examenes.html y
-               cada uno llama a abrirPopupExamen(sigla, tema) al pulsarlo.
-               Aquí solo se busca el profesor/a en "modulos" y se muestra
-               junto al tema que ya viene indicado en el propio bloque.
-               =========================================================== */
-            function abrirPopupExamen(sigla, tema) {
-                const overlay = document.getElementById('overlay-examen');
-                if (!overlay) return;
+    // Guardamos el color de la asignatura en una variable CSS del propio popup, para que todo
+    // lo de dentro (el borde de cada examen, el fondo de las tarjetas...) se pinte con el mismo
+    // color en vez de con grises genéricos.
+    document.querySelector('.popup').style.setProperty('--popup-color', `var(--${sigla})`);
 
-                const modulo = modulos[sigla];
+    document.getElementById('popup-profesor').textContent = `Profesor/a: ${modulo.profesor}`;
 
-                const titulo = document.getElementById('popup-examen-titulo');
-                titulo.textContent = sigla;
-                titulo.style.backgroundColor = `var(--${sigla})`;
-                overlay.querySelector('.popup').style.setProperty('--popup-color', `var(--${sigla})`);
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
 
-                document.getElementById('popup-examen-profesor').textContent = modulo ? `Profesor/a: ${modulo.profesor}` : '';
-                document.getElementById('popup-examen-tema').textContent = `${tema}`;
+    // Copiamos y ordenamos por fecha (los más próximos primero)
+    const lista = [...(examenes[sigla] || [])].sort((a, b) => a.fecha.localeCompare(b.fecha));
+    const cont = document.getElementById('popup-examenes');
 
-                overlay.style.display = 'flex';
-            }
+    if (lista.length === 0) {
+        cont.innerHTML = '<p class="sin-examenes">No hay exámenes añadidos para esta asignatura.</p>';
+    } else {
+        cont.innerHTML = '<ul class="lista-examenes">' + lista.map(ex => {
+            const [a, m, d] = ex.fecha.split('-').map(Number);
+            const pasado = new Date(a, m - 1, d) < hoy;
+            return `
+                <li class="examen ${pasado ? 'pasado' : ''}">
+                    <strong>${escaparHTML(ex.titulo)}</strong>
+                    <span class="examen-fecha">${formatearFecha(ex.fecha)}${ex.hora ? ' · ' + escaparHTML(ex.hora) : ''}</span>
+                    ${ex.tipo ? `<span class="examen-tipo">${escaparHTML(ex.tipo)}</span>` : ''}
+                    ${pasado ? '<span class="examen-tag">Realizado</span>' : ''}
+                </li>`;
+        }).join('') + '</ul>';
+    }
 
-            function cerrarPopupExamen() {
-                const overlay = document.getElementById('overlay-examen');
-                if (overlay) overlay.style.display = 'none';
-            }
+    document.getElementById('overlay').style.display = 'flex';
+}
 
-            // Cerrar cualquiera de los dos popups con la tecla Escape
-            // (cada función comprueba si su overlay existe en esta página).
-            document.addEventListener('keydown', e => {
-                if (e.key !== 'Escape') return;
-                cerrarPopup();
-                cerrarPopupExamen();
-            });
+function cerrarPopup() {
+    const overlay = document.getElementById('overlay');
+    if (overlay) overlay.style.display = 'none';
+}
+
+/* ==============================================================================================================
+    POPUP DE UN EXAMEN (Calendario de Exámenes) los bloques del calendario están escritos a mano en examenes.html
+    y cada uno llama a abrirPopupExamen(sigla, tema) al pulsarlo. Aquí solo se busca el profesor/a en "modulos" y
+    se muestra junto al tema que ya viene indicado en el propio bloque.
+    ============================================================================================================= */
+function abrirPopupExamen(sigla, tema) {
+    const overlay = document.getElementById('overlay-examen');
+    if (!overlay) return;
+
+    const modulo = modulos[sigla];
+
+    const titulo = document.getElementById('popup-examen-titulo');
+    titulo.textContent = sigla;
+    titulo.style.backgroundColor = `var(--${sigla})`;
+    overlay.querySelector('.popup').style.setProperty('--popup-color', `var(--${sigla})`);
+
+    document.getElementById('popup-examen-profesor').textContent = modulo ? `Profesor/a: ${modulo.profesor}` : '';
+    document.getElementById('popup-examen-tema').textContent = `${tema}`;
+
+    overlay.style.display = 'flex';
+}
+
+function cerrarPopupExamen() {
+    const overlay = document.getElementById('overlay-examen');
+    if (overlay) overlay.style.display = 'none';
+}
+
+// Cerrar cualquiera de los dos popups con la tecla Escape
+// (cada función comprueba si su overlay existe en esta página).
+document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    cerrarPopup();
+    cerrarPopupExamen();
+});
