@@ -386,3 +386,9 @@ h1 {
     .hora-label { font-size: 0.5em; }
     .examen-bloque { font-size: 0.5em; }
 }
+
+/* Respeta los saltos de línea (\n) de los títulos/temas de examen en los popups */
+.examen strong,
+.popup-examen-tema {
+    white-space: pre-line;
+}

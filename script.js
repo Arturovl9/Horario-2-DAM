@@ -136,37 +136,38 @@ const examenes = {
     
     // Acceso a Datos
     AD: [
-
+        { fecha: '2026-10-19', hora: '16:25', titulo: 'Tema 1 - Persistencia y manejo de ficheros\nTema 2 - Acceso a bases de datos relacionales con JDBC', tipo: 'Teórico-práctico' }
     ],
     
     // Desarrollo de Interfaces
     DI: [
-        { fecha: '2026-10-21', hora: '16:25', titulo: 'Examen Tema 1 - Interfaces con editores visuales', tipo: 'Teórico-práctico' },
-        { fecha: '2026-11-18', hora: '16:25', titulo: 'Examen Tema 2 - Interfaces basadas en XML', tipo: 'Teórico-práctico' },
-        { fecha: '2026-12-09', hora: '16:25', titulo: 'Examen Tema 3 - Componentes visuales', tipo: 'Teórico-práctico' },
-        { fecha: '2026-12-16', hora: '16:25', titulo: 'Examen Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
-        { fecha: '2027-01-27', hora: '16:25', titulo: 'Examen Tema 4 - Usabilidad de interfaces', tipo: 'Teórico-práctico' },
-        { fecha: '2027-02-17', hora: '16:25', titulo: 'Examen Tema 5 - Informes y Final', tipo: 'Teórico-práctico' }
+        { fecha: '2026-10-21', hora: '16:25', titulo: 'Tema 1 - Interfaces con editores visuales', tipo: 'Teórico-práctico' },
+        { fecha: '2026-11-18', hora: '16:25', titulo: 'Tema 2 - Interfaces basadas en XML', tipo: 'Teórico-práctico' },
+        { fecha: '2026-12-09', hora: '16:25', titulo: 'Tema 3 - Componentes visuales', tipo: 'Teórico-práctico' },
+        { fecha: '2026-12-16', hora: '16:25', titulo: 'Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
+        { fecha: '2027-01-27', hora: '16:25', titulo: 'Tema 4 - Usabilidad de interfaces', tipo: 'Teórico-práctico' },
+        { fecha: '2027-02-17', hora: '16:25', titulo: 'Tema 5 - Informes y Final', tipo: 'Teórico-práctico' }
     ],
     
     // Programación Multimedia y Dispositivos Móviles
     PMDM: [
-        { fecha: '2026-10-13', hora: '17:20', titulo: 'Examen Tema 1 - Tecnologías móviles', tipo: 'Teórico-práctico' },
-        { fecha: '2026-11-10', hora: '17:20', titulo: 'Examen Tema 2 - Interfaz y eventos en Android', tipo: 'Teórico-práctico' },
-        { fecha: '2026-12-01', hora: '17:20', titulo: 'Examen Tema 3 - Persistencia de datos', tipo: 'Teórico-práctico' },
-        { fecha: '2026-12-15', hora: '17:20', titulo: 'Examen Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
-        { fecha: '2027-01-26', hora: '17:20', titulo: 'Examen Tema 4 - Imagen y Audio en Android Tema 5 - Geolocalización', tipo: 'Teórico-práctico' },
-        { fecha: '2027-02-16', hora: '17:20', titulo: 'Examen Tema 6 - Desarrollo de juegos con Unity y Final', tipo: 'Teórico-práctico' }
+        { fecha: '2026-10-13', hora: '17:20', titulo: 'Tema 1 - Tecnologías móviles', tipo: 'Teórico-práctico' },
+        { fecha: '2026-11-10', hora: '17:20', titulo: 'Tema 2 - Interfaz y eventos en Android', tipo: 'Teórico-práctico' },
+        { fecha: '2026-12-01', hora: '17:20', titulo: 'Tema 3 - Persistencia de datos', tipo: 'Teórico-práctico' },
+        { fecha: '2026-12-15', hora: '17:20', titulo: 'Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
+        { fecha: '2027-01-26', hora: '17:20', titulo: 'Tema 4 - Imagen y Audio en Android\nTema 5 - Geolocalización', tipo: 'Teórico-práctico' },
+        { fecha: '2027-02-16', hora: '17:20', titulo: 'Tema 6 - Desarrollo de juegos con Unity y Final', tipo: 'Teórico-práctico' }
     ],
 
     // Proyecto Intermodular
     PI: [
-        { fecha: '2026-10-01', hora: '17:20', titulo: 'Examen Tema 1 - ¿Qué es un Proyecto?', tipo: 'Teórico-práctico' }
+        { fecha: '2026-10-01', hora: '17:20', titulo: 'Tema 1 - ¿Qué es un Proyecto?', tipo: 'Teórico-práctico' }
     ],
     
     // Optativa -  Desarrollo de Aplicaciones Web con Angular
     OPT: [
-        { fecha: '2026-10-02', hora: '15:30', titulo: 'Examen Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Teórico' }
+        { fecha: '2026-10-02', hora: '15:30', titulo: 'Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Teórico' },
+        { fecha: '2026-10-09', hora: '15:30', titulo: 'Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Práctico' }
     ]
 };
 
