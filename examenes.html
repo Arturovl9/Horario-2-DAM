@@ -34,20 +34,40 @@
             <h1>Calendario de Exámenes</h1>
             <p class="subtitle">2º DAM · Curso 2026/2027</p>
 
-            <!-- Leyenda de colores -->
+            <!-- Leyenda de colores (agrupada: asignaturas 3x3, y debajo exámenes / festivos) -->
             <div class="leyenda">
-                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--OPT)"></span>Optativa</span>
-                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--AD)"></span>Acceso a Datos</span>
-                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--IPGS)"></span>Ingles Profesional GS</span>
-                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--DI)"></span>Desarrollo de Interfaces</span>
-                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--SGE)"></span>Sistema de Gestión Empresarial</span>
-                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--PSP)"></span>Promación de Servicios y procesos</span>
-                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--IPE-II)"></span>Itinerario personal para la empleabilidad II</span>
-                <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--PMDM)"></span>Programación multimedia y dispositivos móviles</span>
-                <span class="leyenda-item"><span class="leyenda-color" style="background-color:#9a031e"></span>Examen Final</span>
-                <span class="leyenda-item"><span class="leyenda-color" style="background-color:#f4978e"></span>Presentación</span>
+                <div class="leyenda-grupo ancho">
+                    <div class="leyenda-titulo">Asignaturas</div>
+                    <div class="leyenda-items">
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--AD)"></span>Acceso a datos</span>                                   <!-- 1º Columna -->
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--IPGS)"></span>Inglés profesional GS</span>                          <!-- 2º Columna -->
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--PSP)"></span>Programación de servicios y procesos</span>            <!-- 3º Columna -->
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--PI)"></span>Proyecto Intermodular</span>                            <!-- 1º Columna -->
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--OPT)"></span>Optativa · DAW con Angular</span>                      <!-- 2º Columna -->
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--IPE-II)"></span>Itinerario personal para la empleabilidad II</span> <!-- 3º Columna -->
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--DI)"></span>Desarrollo de interfaces</span>                         <!-- 1º Columna -->
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--SGE)"></span>Sistemas de gestión empresarial</span>                 <!-- 2º Columna -->
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--PMDM)"></span>Programación multimedia y dispositivos móviles</span> <!-- 3º Columna -->
+                    </div>
+                </div>
+                <div class="leyenda-grupo">
+                    <div class="leyenda-titulo">Exámenes y evaluación</div>
+                    <div class="leyenda-items">
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:#e11d48"></span>Examen final</span>
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:#fda4af"></span>Presentación</span>
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--Boletin)"></span>Boletín</span>
+                    </div>
+                </div>
+                <div class="leyenda-grupo">
+                    <div class="leyenda-titulo">Festivos</div>
+                    <div class="leyenda-items">
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--FiestaAndalucia)"></span>Fiesta Andalucía</span>
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--FiestaProvincial)"></span>Fiesta Provincial</span>
+                        <span class="leyenda-item"><span class="leyenda-color" style="background-color:var(--FiestaLocalidad)"></span>Fiesta Localidad</span>
+                    </div>
+                </div>
             </div>
-            
+
             <div class="examenes-calendario">
                 <h2 class="trimestre-titulo">1er Trimestre</h2>
                 <div class="semanas-grid">
@@ -129,6 +149,7 @@
                             <div class="hora-label" style="grid-row:4">18:45</div>
                             <div class="hora-label" style="grid-row:5">19:40</div>
                             <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="festivo-bloque FEST-AND" style="grid-column:2; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaAndalucia', 'Día de la Hispanidad')">Festivo</div>
                             <div class="examen-bloque PMDM" style="grid-column:3; grid-row:2 / span 5;" onclick="abrirPopupExamen('PMDM', ' Tema 1 - Tecnologías móviles')">PMDM</div>
                             <div class="examen-bloque presentacion" style="grid-column:4; grid-row:1 / span 2;" onclick="abrirPopupExamen('IPGS', 'Presentación')">Pres. IPGS</div>
                         </div>
@@ -146,8 +167,8 @@
                             <div class="hora-label" style="grid-row:4">18:45</div>
                             <div class="hora-label" style="grid-row:5">19:40</div>
                             <div class="hora-label" style="grid-row:6">20:35</div>
-                            <div class="examen-bloque DI" style="grid-column:4; grid-row:3 / span 4;" onclick="abrirPopupExamen('DI', 'Tema 1 - Interfaces con editores visuales')">DI</div>
-                            <div class="examen-bloque AD" style="grid-column:2; grid-row:2 / span 5;" onclick="abrirPopupExamen('AD', 'Tema 1 - Persistencia y manejo de ficheros\nTema 2 - Acceso a bases de datos relacionales con JDBC')">AD</div>
+                            <div class="examen-bloque AD" style="grid-column:2; grid-row:1 / span 2;" onclick="abrirPopupExamen('AD', 'Tema 1 - Persistencia y manejo de ficheros\nTema 2 - Acceso a bases de datos relacionales con JDBC')">AD</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Tema 2 - Gestión Clásica-Tradicional')">PI</div>
                             
                         </div>
                     </div>
@@ -165,6 +186,10 @@
                             <div class="hora-label" style="grid-row:4">18:45</div>
                             <div class="hora-label" style="grid-row:5">19:40</div>
                             <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="festivo-bloque FEST-LOC" style="grid-column:2; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaLocalidad', 'Fiesta Escolar')">Festivo</div>
+                            <div class="examen-bloque DI" style="grid-column:3; grid-row:3 / span 4;" onclick="abrirPopupExamen('DI', 'Tema 1 - Interfaces con editores visuales')">DI</div>
+                            <div class="examen-bloque OPT" style="grid-column:6; grid-row:1 / span 3;" onclick="abrirPopupExamen('OPT', 'Tema 2 - TypeScript orientado a objetos y tipado avanzado')">OPT Teórico Posible</div>
+                            
                         </div>
                     </div>
 
@@ -180,6 +205,7 @@
                             <div class="hora-label" style="grid-row:4">18:45</div>
                             <div class="hora-label" style="grid-row:5">19:40</div>
                             <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="festivo-bloque FEST-AND" style="grid-column:2; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaAndalucia', 'Lunes siguiente al día de Todos los Santos')">Festivo</div>
                         </div>
                     </div>
 
@@ -229,7 +255,7 @@
                             <div class="hora-label" style="grid-row:4">18:45</div>
                             <div class="hora-label" style="grid-row:5">19:40</div>
                             <div class="hora-label" style="grid-row:6">20:35</div>
-                            <div class="examen-bloque IPE-II" style="grid-column:4; grid-row:3 / span 4;" onclick="abrirPopupExamen('IPE-II', 'Convalidada')">IPE-II</div>
+                            <div class="examen-bloque IPE-II" style="grid-column:5; grid-row:3 / span 4;" onclick="abrirPopupExamen('IPE-II', 'Convalidada')">IPE-II</div>
 
                         </div>
                     </div>
@@ -263,6 +289,8 @@
                             <div class="hora-label" style="grid-row:4">18:45</div>
                             <div class="hora-label" style="grid-row:5">19:40</div>
                             <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="festivo-bloque FEST-AND" style="grid-column:2; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaAndalucia', 'Lunes siguiente al día de la Constitución')">Festivo</div>
+                            <div class="festivo-bloque FEST-AND" style="grid-column:3; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaAndalucia', 'Día de la Inmaculada')">Festivo</div>
                             <div class="examen-bloque presentacion" style="grid-column:4; grid-row:1 / span 2;" onclick="abrirPopupExamen('IPGS', 'Presentación')">Pres. IPGS</div>
                             <div class="examen-bloque DI" style="grid-column:4; grid-row:3 / span 4;" onclick="abrirPopupExamen('DI', ' Tema 3 - Componentes visuales')">DI</div>
                         </div>
@@ -297,8 +325,10 @@
                             <div class="hora-label" style="grid-row:4">18:45</div>
                             <div class="hora-label" style="grid-row:5">19:40</div>
                             <div class="hora-label" style="grid-row:6">20:35</div>
-                            <div class="examen-bloque" style="grid-column:2; grid-row:2 / span 5;" onclick="abrirPopupExamen('Boletin', 'Entrega del boletin')">Boletin</div>
-
+                            <div class="festivo-bloque FEST-LOC" style="grid-column:4; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaLocalidad', 'Vacaciones de Navidad provincial')">Festivo</div>
+                            <div class="festivo-bloque FEST-LOC" style="grid-column:5; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaLocalidad', 'Vacaciones de Navidad')">Festivo</div>
+                            <div class="festivo-bloque FEST-AND" style="grid-column:6; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaAndalucia', 'Día de Navidad')">Festivo</div>
+                            <div class="boletin-bloque" style="grid-column:3; grid-row:2 / span 5;" onclick="abrirPopupExamen('Boletin', 'Entrega del boletín')">Boletín</div>
                         </div>
                     </div>
                 </div>
@@ -395,6 +425,241 @@
                             <div class="hora-label" style="grid-row:6">20:35</div>
                             <div class="examen-bloque final" style="grid-column:3; grid-row:2 / span 5;" onclick="abrirPopupExamen('PMDM', 'Examen Tema 6 - Desarrollo de juegos con Unity y Final')">PMDM Final</div>
                             <div class="examen-bloque final" style="grid-column:4; grid-row:3 / span 4;" onclick="abrirPopupExamen('DI', 'Examen Tema 5 - Informes y Final')">DI Final</div>
+                            <div class="boletin-bloque" style="grid-column:6; grid-row:2 / span 5;" onclick="abrirPopupExamen('Boletin', 'Entrega del boletín')">Boletín</div>
+                        </div>
+                    </div>
+
+                </div>
+                <h2 class="trimestre-titulo">Prácticas</h2>
+                <div class="semanas-grid">
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 22</div>
+                        <div class="semana-fechas">
+                            <span></span><span>22/2</span><span>23/2</span><span>24/2</span><span>25/2</span><span>26/2</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="festivo-bloque FEST-PROV" style="grid-column:6; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaProvincial', '26 de febrero')">Festivo</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 23</div>
+                        <div class="semana-fechas">
+                            <span></span><span>1/3</span><span>2/3</span><span>3/3</span><span>4/3</span><span>5/3</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="festivo-bloque FEST-AND" style="grid-column:2; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaAndalucia', 'Lunes siguiente al día de Andalucía')">Festivo</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 24</div>
+                        <div class="semana-fechas">
+                            <span></span><span>8/3</span><span>9/3</span><span>10/3</span><span>11/3</span><span>12/3</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 25</div>
+                        <div class="semana-fechas">
+                            <span></span><span>15/3</span><span>16/3</span><span>17/3</span><span>18/3</span><span>19/3</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 26</div>
+                        <div class="semana-fechas">
+                            <span></span><span>22/3</span><span>23/3</span><span>24/3</span><span>25/3</span><span>26/3</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="festivo-bloque FEST-LOC" style="grid-column:2; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaLocalidad', 'Vacaciones de Semana Santa')">Festivo</div>
+                            <div class="festivo-bloque FEST-LOC" style="grid-column:3; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaLocalidad', 'Vacaciones de Semana Santa')">Festivo</div>
+                            <div class="festivo-bloque FEST-LOC" style="grid-column:4; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaLocalidad', 'Vacaciones de Semana Santa')">Festivo</div>
+                            <div class="festivo-bloque FEST-AND" style="grid-column:5; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaAndalucia', 'Jueves Santo')">Festivo</div>
+                            <div class="festivo-bloque FEST-AND" style="grid-column:6; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaAndalucia', 'Viernes Santo')">Festivo</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 27</div>
+                        <div class="semana-fechas">
+                            <span></span><span>29/3</span><span>30/3</span><span>31/3</span><span>1/4</span><span>2/4</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 28</div>
+                        <div class="semana-fechas">
+                            <span></span><span>5/4</span><span>6/4</span><span>7/4</span><span>8/4</span><span>9/4</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 29</div>
+                        <div class="semana-fechas">
+                            <span></span><span>12/4</span><span>13/4</span><span>14/4</span><span>15/4</span><span>16/4</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 30</div>
+                        <div class="semana-fechas">
+                            <span></span><span>19/4</span><span>20/4</span><span>21/4</span><span>22/4</span><span>23/4</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 31</div>
+                        <div class="semana-fechas">
+                            <span></span><span>26/4</span><span>27/4</span><span>28/4</span><span>29/4</span><span>30/4</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 32</div>
+                        <div class="semana-fechas">
+                            <span></span><span>3/5</span><span>4/5</span><span>5/5</span><span>6/5</span><span>7/5</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 33</div>
+                        <div class="semana-fechas">
+                            <span></span><span>10/5</span><span>11/5</span><span>12/5</span><span>13/5</span><span>14/5</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 34</div>
+                        <div class="semana-fechas">
+                            <span></span><span>17/5</span><span>18/5</span><span>19/5</span><span>20/5</span><span>21/5</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque PI" style="grid-column:5; grid-row:2 / span 2;" onclick="abrirPopupExamen('PI', 'Proyecto Intermodular')">PI</div>
+                        </div>
+                    </div>
+
+                    <div class="semana-bloque">
+                        <div class="semana-titulo">Semana 35</div>
+                        <div class="semana-fechas">
+                            <span></span><span>24/5</span><span>25/5</span><span>26/5</span><span>27/5</span><span>28/5</span>
+                        </div>
+                        <div class="semana-cuerpo">
+                            <div class="hora-label" style="grid-row:1">15:30</div>
+                            <div class="hora-label" style="grid-row:2">16:25</div>
+                            <div class="hora-label" style="grid-row:3">17:20</div>
+                            <div class="hora-label" style="grid-row:4">18:45</div>
+                            <div class="hora-label" style="grid-row:5">19:40</div>
+                            <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="festivo-bloque FEST-LOC" style="grid-column:5; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaLocalidad', 'Fiesta Feria')">Festivo Feria</div>
+                            <div class="festivo-bloque FEST-LOC" style="grid-column:6; grid-row:1 / span 6;" onclick="abrirPopupExamen('FiestaLocalidad', 'Fiesta Feria')">Festivo Feria</div>
                         </div>
                     </div>
 

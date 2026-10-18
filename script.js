@@ -91,6 +91,29 @@ construirVistaMovilPorDia();
 // (por ejemplo, si giras el móvil o pasas de escritorio a móvil).
 window.addEventListener('resize', construirVistaMovilPorDia);
 
+/* =====================================================
+    POPUPS SIEMPRE CENTRADOS EN LA PANTALLA
+    El contenedor .horario-container tiene "backdrop-filter", y eso hace que un elemento
+    position:fixed colocado DENTRO se posicione respecto al contenedor y no respecto a
+    la pantalla (se descentra y se mueve al hacer scroll). Por eso, al cargar la página,
+    sacamos los overlays del contenedor y los colgamos directamente del <body>.
+===================================================== */
+document.querySelectorAll('.overlay').forEach(overlay => document.body.appendChild(overlay));
+
+/* Bloquea / desbloquea el scroll de la página mientras hay un popup abierto.
+   Se compensa el ancho de la barra de scroll para que el fondo no "salte". */
+function bloquearScroll(bloquear) {
+    const html = document.documentElement;
+    if (bloquear) {
+        const anchoBarra = window.innerWidth - html.clientWidth;
+        html.style.setProperty('--ancho-barra', `${anchoBarra}px`);
+        html.classList.add('popup-abierto');
+    } else {
+        html.classList.remove('popup-abierto');
+        html.style.removeProperty('--ancho-barra');
+    }
+}
+
 /* Nombre completo y profesor de cada módulo */
 const modulos = {
     IPGS:     { nombre: 'Inglés profesional GS', profesor: 'Alexandra Gámez Villegas' },
@@ -114,7 +137,7 @@ const modulos = {
 const examenes = {
     // Itinerario Personal para la empleabilidad 2
     'IPE-II': [
-
+        { fecha: '2026-11-26', hora: '16:25', titulo: 'Convalidada', tipo: 'Teórico-práctico' },
     ],
     
     // Ingles Profesional Grado Superior
@@ -141,7 +164,7 @@ const examenes = {
     
     // Desarrollo de Interfaces
     DI: [
-        { fecha: '2026-10-21', hora: '16:25', titulo: 'Tema 1 - Interfaces con editores visuales', tipo: 'Teórico-práctico' },
+        { fecha: '2026-10-27', hora: '16:25', titulo: 'Tema 1 - Interfaces con editores visuales', tipo: 'Teórico-práctico' },
         { fecha: '2026-11-18', hora: '16:25', titulo: 'Tema 2 - Interfaces basadas en XML', tipo: 'Teórico-práctico' },
         { fecha: '2026-12-09', hora: '16:25', titulo: 'Tema 3 - Componentes visuales', tipo: 'Teórico-práctico' },
         { fecha: '2026-12-16', hora: '16:25', titulo: 'Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
@@ -161,13 +184,16 @@ const examenes = {
 
     // Proyecto Intermodular
     PI: [
-        { fecha: '2026-10-01', hora: '17:20', titulo: 'Tema 1 - ¿Qué es un Proyecto?', tipo: 'Teórico-práctico' }
+        { fecha: '2026-10-01', hora: '17:20', titulo: 'Tema 1 - ¿Qué es un Proyecto?', tipo: 'Teórico-práctico' },
+        { fecha: '2026-10-22', hora: '17:20', titulo: 'Tema 2 - Gestión Clásica-Tradicional', tipo: 'Teórico-práctico' }
     ],
     
     // Optativa -  Desarrollo de Aplicaciones Web con Angular
     OPT: [
         { fecha: '2026-10-02', hora: '15:30', titulo: 'Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Teórico' },
-        { fecha: '2026-10-09', hora: '15:30', titulo: 'Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Práctico' }
+        { fecha: '2026-10-09', hora: '15:30', titulo: 'Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Práctico' },
+        { fecha: '2026-10-30', hora: '15:30', titulo: 'Tema 2 - TypeScript orientado a objetos y tipado avanzado', tipo: 'Teórico' },
+        //{ fecha: '0000-00-00', hora: '15:30', titulo: 'Tema 2 - TypeScript orientado a objetos y tipado avanzado', tipo: 'Práctico' }
     ]
 };
 
@@ -228,11 +254,13 @@ function abrirPopup(sigla) {
     }
 
     document.getElementById('overlay').style.display = 'flex';
+    bloquearScroll(true);
 }
 
 function cerrarPopup() {
     const overlay = document.getElementById('overlay');
     if (overlay) overlay.style.display = 'none';
+    bloquearScroll(false);
 }
 
 /* ==============================================================================================================
@@ -247,19 +275,33 @@ function abrirPopupExamen(sigla, tema) {
     const modulo = modulos[sigla];
 
     const titulo = document.getElementById('popup-examen-titulo');
-    titulo.textContent = sigla;
+    // Fiestas y boletín tienen nombre propio y su propio color de texto
+    const fiestas = {
+        FiestaAndalucia: { nombre: 'Fiesta Andalucía', texto: '#1f3a05' },
+        FiestaProvincial: { nombre: 'Fiesta Provincial', texto: '#fff' },
+        FiestaLocalidad: { nombre: 'Fiesta Localidad', texto: '#fff' },
+        Boletin: { nombre: 'Boletín', texto: '#4a235a' }
+    };
+    const fiesta = fiestas[sigla];
+    titulo.textContent = fiesta ? fiesta.nombre : sigla;
     titulo.style.backgroundColor = `var(--${sigla})`;
+    titulo.style.color = fiesta ? fiesta.texto : '';
     overlay.querySelector('.popup').style.setProperty('--popup-color', `var(--${sigla})`);
 
-    document.getElementById('popup-examen-profesor').textContent = modulo ? `Profesor/a: ${modulo.profesor}` : '';
+    // Los festivos no tienen profesor: en ese caso se oculta esa línea
+    const profesor = document.getElementById('popup-examen-profesor');
+    profesor.textContent = modulo ? `Profesor/a: ${modulo.profesor}` : '';
+    profesor.style.display = modulo ? '' : 'none';
     document.getElementById('popup-examen-tema').textContent = `${tema}`;
 
     overlay.style.display = 'flex';
+    bloquearScroll(true);
 }
 
 function cerrarPopupExamen() {
     const overlay = document.getElementById('overlay-examen');
     if (overlay) overlay.style.display = 'none';
+    bloquearScroll(false);
 }
 
 // Cerrar cualquiera de los dos popups con la tecla Escape
