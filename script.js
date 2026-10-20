@@ -154,7 +154,7 @@ const examenes = {
 
     // Programación de Servicios y Procesos
     PSP: [
-
+        { fecha: '2026-10-30', hora: '18:45', titulo: 'Tema 1 - Programación Multiproceso\nTema 2 - Programación multihilo\nTema 3 - Comunicaciones en red', tipo: 'Teórico-práctico' },
     ],
     
     // Acceso a Datos

@@ -80,14 +80,6 @@ body::before {
     margin: 0 auto;
 }
 
-@media (min-width: 1600px) {
-    .horario-container { padding: 40px; }
-    .horario-table th, .horario-table td, .siglas-table th, .siglas-table td {
-        font-size: 0.95em;
-        padding: 14px 10px;
-    }
-}
-
 /* Horario y Asignaturas/Siglas: la tarjeta con su tabla queda centrada en la pantalla,
    tanto en horizontal como en vertical (si el contenido es más alto que la pantalla,
    simplemente se hace scroll con normalidad). El Calendario de Exámenes no se toca. */
@@ -251,69 +243,6 @@ h1 {
     display: none;
 }
 
-@media (max-width: 850px) {
-    body { padding: 12px 8px; }
-    .horario-container { padding: 18px 12px; border-radius: 16px; }
-    .horario-table { display: none; }
-    .horario-movil { display: block; }
-    .siglas-table { font-size: 0.82em; }
-
-    header { margin-bottom: 18px; }
-    nav ul li a { padding: 6px 14px; font-size: 13px; }
-
-    .dia-bloque {
-        border: 1px solid var(--color-border);
-        border-radius: 14px;
-        overflow: hidden;
-        margin-bottom: 14px;
-        background: #ffffff;
-    }
-
-    .dia-titulo {
-        margin: 0;
-        padding: 10px 14px;
-        background: #f1f5f9;
-        color: #0f172a;
-        font-size: 0.92em;
-        font-weight: 800;
-        text-transform: uppercase;
-        border-bottom: 1px solid var(--color-border);
-    }
-
-    .franja {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 12px;
-        border-top: 1px solid var(--color-border);
-        font-size: 0.85em;
-    }
-
-    .franja-hora {
-        font-family: var(--font-mono);
-        font-weight: 600;
-        color: #475569;
-        white-space: nowrap;
-        margin-right: 12px;
-    }
-
-    .franja-asignatura {
-        text-align: right;
-        flex: 1;
-        font-weight: 600;
-    }
-
-    .franja.IPGS   { background-color: var(--IPGS); color: #1e3a8a; }
-    .franja.AD     { background-color: var(--AD); color: #134e4a; }
-    .franja.DI     { background-color: var(--DI); color: #7c2d12; }
-    .franja.PMDM   { background-color: var(--PMDM); color: #713f12; }
-    .franja.PSP    { background-color: var(--PSP); color: #881337; }
-    .franja.SGE    { background-color: var(--SGE); color: #0c4a6e; }
-    .franja.PI     { background-color: var(--PI); color: #581c87; }
-    .franja.IPE-II { background-color: var(--IPE-II); color: #14532d; }
-    .franja.OPT    { background-color: var(--OPT); color: #115e59; }
-}
-
 /* ==========================================================================
    POPUP / MODAL · DISEÑO MODERNO
    Mismas clases e ids que antes (no hay que tocar HTML ni JS).
@@ -342,11 +271,6 @@ h1 {
 html.popup-abierto { overflow: hidden; }
 html.popup-abierto body { padding-right: calc(16px + var(--ancho-barra, 0px)); }
 
-@keyframes overlayFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
 .popup {
     --radio: 26px;
     position: relative;
@@ -365,11 +289,6 @@ html.popup-abierto body { padding-right: calc(16px + var(--ancho-barra, 0px)); }
         0 2px 4px rgba(15, 23, 42, 0.06),
         0 30px 80px -20px rgba(15, 23, 42, 0.55);
     animation: popupEntrada 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
-}
-
-@keyframes popupEntrada {
-    from { opacity: 0; transform: translateY(24px) scale(0.94); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* ---------- Botón de cierre ---------- */
@@ -575,11 +494,6 @@ html.popup-abierto body { padding-right: calc(16px + var(--ancho-barra, 0px)); }
 .examen:nth-child(4) { animation-delay: 0.20s; }
 .examen:nth-child(n+5) { animation-delay: 0.25s; }
 
-@keyframes examenEntrada {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
 /* Barra de acento redondeada */
 .examen::before {
     content: "";
@@ -666,22 +580,6 @@ html.popup-abierto body { padding-right: calc(16px + var(--ancho-barra, 0px)); }
 }
 .examen-tag::before { content: "✓"; font-size: 0.9em; }
 
-/* ---------- Móvil: sigue centrado, con un pequeño margen lateral ---------- */
-@media (max-width: 600px) {
-    .overlay { padding: 16px; }
-    .popup { width: 100%; max-height: 86dvh; }
-    .popup h2 { padding: 28px 60px 22px 22px; font-size: 1.2rem; }
-    .popup-profesor, .popup-examen-profesor { margin-left: 22px; }
-    .popup-examen-tema { margin: 14px 22px 26px; }
-    #popup-examenes { padding: 14px 16px 26px 22px; }
-}
-
-/* Respeta a quien prefiere menos movimiento */
-@media (prefers-reduced-motion: reduce) {
-    .overlay, .popup, .examen { animation: none; }
-    .cerrar, .examen { transition: none; }
-}
-
 /* --------------- Calendario de Exámenes --------------- */
 .leyenda {
     display: grid;
@@ -726,6 +624,13 @@ html.popup-abierto body { padding-right: calc(16px + var(--ancho-barra, 0px)); }
     gap: 10px 18px;
 }
 
+/* Asignaturas: 3 filas llenándose por columnas (el orden del HTML va de corto a largo,
+   así las columnas más estrechas quedan a la izquierda y la más larga a la derecha) */
+.leyenda-grupo.ancho .leyenda-items {
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, auto);
+}
+
 .leyenda-item {
     display: flex;
     align-items: center;
@@ -740,18 +645,6 @@ html.popup-abierto body { padding-right: calc(16px + var(--ancho-barra, 0px)); }
     border-radius: 4px;
     display: inline-block;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
-}
-
-/* Pantallas medianas: los grupos pasan a ocupar todo el ancho */
-@media (max-width: 900px) {
-    .leyenda { grid-template-columns: 1fr; }
-    .leyenda-items { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* Móvil: una sola columna */
-@media (max-width: 560px) {
-    .leyenda { padding: 16px 16px 18px; }
-    .leyenda-items { grid-template-columns: 1fr; }
 }
 
 .trimestre-titulo {
@@ -773,6 +666,7 @@ html.popup-abierto body { padding-right: calc(16px + var(--ancho-barra, 0px)); }
 }
 
 .semana-bloque {
+    --fila: 21px;       /* alto de cada franja horaria */
     --col-horas: 46px; /* ancho de la columna de horas (cabecera de fechas + cuerpo) */
     border: 1px solid var(--color-border);
     border-radius: 14px;
@@ -817,8 +711,8 @@ html.popup-abierto body { padding-right: calc(16px + var(--ancho-barra, 0px)); }
     position: relative;
     display: grid;
     grid-template-columns: var(--col-horas) repeat(5, 1fr);
-    grid-template-rows: repeat(6, 21px);
-    background-image: repeating-linear-gradient(to bottom, transparent 0 20px, #f1f5f9 20px 21px);
+    grid-template-rows: repeat(6, var(--fila));
+    background-image: repeating-linear-gradient(to bottom, transparent 0 calc(var(--fila) - 1px), #f1f5f9 calc(var(--fila) - 1px) var(--fila));
 }
 
 .hora-label {
@@ -894,16 +788,158 @@ html.popup-abierto body { padding-right: calc(16px + var(--ancho-barra, 0px)); }
     color: #881337;
 }
 
+
+/* ==========================================================================
+   ANIMACIONES (@keyframes)
+   ========================================================================== */
+
+@keyframes overlayFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes popupEntrada {
+    from { opacity: 0; transform: translateY(24px) scale(0.94); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes examenEntrada {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ==========================================================================
+   MEDIA QUERIES (de mayor a menor ancho, y las preferencias del usuario al final)
+   Orden: 1600px+ · 900px · 850px · 600px · 560px · movimiento reducido
+   ========================================================================== */
+
+/* ---------- Pantallas muy grandes ---------- */
+@media (min-width: 1600px) {
+    .horario-container { padding: 40px; }
+    .horario-table th, .horario-table td, .siglas-table th, .siglas-table td {
+        font-size: 0.95em;
+        padding: 14px 10px;
+    }
+}
+
+/* ---------- ≤ 900px · Tablet ---------- */
 @media (max-width: 900px) {
+    /* Leyenda: los grupos pasan a ocupar todo el ancho */
+    .leyenda { grid-template-columns: 1fr; }
+    .leyenda-items { grid-template-columns: repeat(2, 1fr); }
+    .leyenda-grupo.ancho .leyenda-items { grid-template-rows: repeat(5, auto); }
+
+    /* Calendario: 2 semanas por fila */
     .semanas-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* ---------- ≤ 850px · Vista móvil del horario y menú compacto ---------- */
+@media (max-width: 850px) {
+    body { padding: 12px 8px; }
+    .horario-container { padding: 18px 12px; border-radius: 16px; }
+    .horario-table { display: none; }
+    .horario-movil { display: block; }
+    .siglas-table { font-size: 0.82em; }
+
+    header { margin-bottom: 18px; max-width: 100%; }
+    nav ul { flex-wrap: wrap; justify-content: center; }
+    nav ul li { font-size: clamp(10px, 2.85vw, 13px); }
+    nav ul li a { padding: 6px clamp(6px, 2.4vw, 14px); font-size: inherit; }
+
+    .dia-bloque {
+        border: 1px solid var(--color-border);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 14px;
+        background: #ffffff;
+    }
+
+    .dia-titulo {
+        margin: 0;
+        padding: 10px 14px;
+        background: #f1f5f9;
+        color: #0f172a;
+        font-size: 0.92em;
+        font-weight: 800;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .franja {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        border-top: 1px solid var(--color-border);
+        font-size: 0.85em;
+    }
+
+    .franja-hora {
+        font-family: var(--font-mono);
+        font-weight: 600;
+        color: #475569;
+        white-space: nowrap;
+        margin-right: 12px;
+    }
+
+    .franja-asignatura {
+        text-align: right;
+        flex: 1;
+        font-weight: 600;
+    }
+
+    .franja.IPGS   { background-color: var(--IPGS); color: #1e3a8a; }
+    .franja.AD     { background-color: var(--AD); color: #134e4a; }
+    .franja.DI     { background-color: var(--DI); color: #7c2d12; }
+    .franja.PMDM   { background-color: var(--PMDM); color: #713f12; }
+    .franja.PSP    { background-color: var(--PSP); color: #881337; }
+    .franja.SGE    { background-color: var(--SGE); color: #0c4a6e; }
+    .franja.PI     { background-color: var(--PI); color: #581c87; }
+    .franja.IPE-II { background-color: var(--IPE-II); color: #14532d; }
+    .franja.OPT    { background-color: var(--OPT); color: #115e59; }
+}
+
+/* ---------- ≤ 600px · Móvil: popups y contenido más compactos ---------- */
 @media (max-width: 600px) {
-    .semanas-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .semana-titulo { font-size: 0.78em; }
-    .semana-fechas { font-size: 0.56em; }
-    .semana-bloque { --col-horas: 40px; }
-    .hora-label { font-size: 0.52em; }
-    .examen-bloque, .festivo-bloque, .boletin-bloque { font-size: 0.52em; }
-    .festivo-bloque, .boletin-bloque { font-size: 0.45em; }
+    /* Popups: siguen centrados, con un pequeño margen lateral */
+    .overlay { padding: 16px; }
+    .popup { width: 100%; max-height: 86dvh; }
+    .popup h2 { padding: 28px 60px 22px 22px; font-size: 1.2rem; }
+    .popup-profesor, .popup-examen-profesor { margin-left: 22px; }
+    .popup-examen-tema { margin: 14px 22px 26px; }
+    #popup-examenes { padding: 14px 16px 26px 22px; }
+
+    /* Contenido de la página */
+    .horario-container { padding: 14px 10px; }
+    h1 { font-size: 1.55rem; }
+    .subtitle { font-size: 0.85rem; margin-bottom: 14px; }
+    .trimestre-titulo { font-size: 1.15rem; margin: 26px 0 12px; }
+}
+
+/* ---------- ≤ 560px · Móvil estrecho: todo en un solo bloque ---------- */
+@media (max-width: 530px) {
+    /* Leyenda: una sola columna, en el mismo orden (de menor a mayor) y más compacta */
+    .leyenda { padding: 14px 14px 16px; gap: 14px; font-size: 0.74em; }
+    .leyenda-items,
+    .leyenda-grupo.ancho .leyenda-items {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        grid-auto-flow: row;
+        gap: 8px;
+    }
+
+    /* Calendario: UNA semana por fila, a todo el ancho, con letra y filas más cómodas */
+    .semanas-grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .semana-bloque { --fila: 26px; width: 80%; margin-inline: auto; }
+    .semana-titulo { font-size: 0.92em; }
+    .semana-fechas { font-size: 0.72em; }
+    .hora-label { font-size: 0.66em; }
+    .examen-bloque, .festivo-bloque, .boletin-bloque { font-size: 0.66em; }
+}
+
+/* ---------- Preferencias del usuario: menos movimiento ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .overlay, .popup, .examen { animation: none; }
+    .cerrar, .examen { transition: none; }
 }
