@@ -193,7 +193,7 @@ const examenes = {
         { fecha: '2026-10-02', hora: '15:30', titulo: 'Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Teórico' },
         { fecha: '2026-10-09', hora: '15:30', titulo: 'Tema 1 - Introducción a TypeScript y Primeros Pasos', tipo: 'Práctico' },
         { fecha: '2026-10-30', hora: '15:30', titulo: 'Tema 2 - TypeScript orientado a objetos y tipado avanzado', tipo: 'Teórico' },
-        //{ fecha: '0000-00-00', hora: '15:30', titulo: 'Tema 2 - TypeScript orientado a objetos y tipado avanzado', tipo: 'Práctico' }
+        { fecha: '2026-11-06', hora: '15:30', titulo: 'Tema 2 - TypeScript orientado a objetos y tipado avanzado', tipo: 'Práctico' }
     ]
 };
 
