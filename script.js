@@ -149,7 +149,8 @@ const examenes = {
 
     // Sistema de Gestión Empresarial
     SGE: [
-        { fecha: '2026-10-05', hora: '17:20', titulo: 'Examen Tema 1 - Tema 1 - ERP, CRM y BI', tipo: 'Teórico-práctico' },
+        { fecha: '2026-10-05', hora: '17:20', titulo: 'Tema 1 - ERP, CRM y BI', tipo: 'Teórico-práctico' },
+        { fecha: '2026-11-23', hora: '17:20', titulo: 'Tema 2 - Implantación de Odoo 19 con Docker', tipo: 'Teórico-práctico' },
     ],
 
     // Programación de Servicios y Procesos
@@ -159,13 +160,15 @@ const examenes = {
     
     // Acceso a Datos
     AD: [
-        { fecha: '2026-10-19', hora: '16:25', titulo: 'Tema 1 - Persistencia y manejo de ficheros\nTema 2 - Acceso a bases de datos relacionales con JDBC', tipo: 'Teórico-práctico' }
+        { fecha: '2026-10-19', hora: '16:25', titulo: 'Tema 1 - Persistencia y manejo de ficheros\nTema 2 - Acceso a bases de datos relacionales con JDBC', tipo: 'Teórico-práctico' },
+        { fecha: '2026-11-30', hora: '15:30', titulo: 'Tema 3 - JPA transacciones consultas JPQL', tipo: 'Práctico' },
+        { fecha: '2026-12-1', hora: '15:30', titulo: 'Tema 3 - JPA transacciones consultas JPQL', tipo: 'Teórico' }
     ],
     
     // Desarrollo de Interfaces
     DI: [
         { fecha: '2026-10-27', hora: '16:25', titulo: 'Tema 1 - Interfaces con editores visuales', tipo: 'Teórico-práctico' },
-        { fecha: '2026-11-18', hora: '16:25', titulo: 'Tema 2 - Interfaces basadas en XML', tipo: 'Teórico-práctico' },
+        { fecha: '2026-11-25', hora: '16:25', titulo: 'Tema 2 - Interfaces basadas en XML', tipo: 'Teórico-práctico' },
         { fecha: '2026-12-09', hora: '16:25', titulo: 'Tema 3 - Componentes visuales', tipo: 'Teórico-práctico' },
         { fecha: '2026-12-16', hora: '16:25', titulo: 'Final (Tema 1, 2 y 3)', tipo: 'Teórico-práctico' },
         { fecha: '2027-01-27', hora: '16:25', titulo: 'Tema 4 - Usabilidad de interfaces', tipo: 'Teórico-práctico' },
