@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Calendario de Exámenes - 2º DAM</title>
+        <link rel="icon" type="image/png" href="src/img/iconoPestanana.png">
         <link rel="stylesheet" href="css/styles.css">
     </head>
     <body>
@@ -12,7 +13,7 @@
             <header>
                 <nav>
                     <ul>
-                        <li><a href="index.html">Horario</a></li>
+                        <li><a href="../index.html">Horario</a></li>
                         <li><a href="asignaturas.html">Asignatura/Siglas</a></li>
                         <li><a href="examenes.html">Calendario Exámenes</a></li>
                     </ul>
@@ -241,7 +242,6 @@
                             <div class="hora-label" style="grid-row:5">19:40</div>
                             <div class="hora-label" style="grid-row:6">20:35</div>
                             <div class="examen-bloque presentacion" style="grid-column:4; grid-row:1 / span 2;" onclick="abrirPopupExamen('IPGS', 'Presentación')">Pres. IPGS</div>
-                            <div class="examen-bloque DI" style="grid-column:4; grid-row:4 / span 3;" onclick="abrirPopupExamen('DI', ' Tema 2 - Interfaces basadas en XML')">DI</div>
                         </div>
                     </div>
 
@@ -257,6 +257,7 @@
                             <div class="hora-label" style="grid-row:4">18:45</div>
                             <div class="hora-label" style="grid-row:5">19:40</div>
                             <div class="hora-label" style="grid-row:6">20:35</div>
+                            <div class="examen-bloque DI" style="grid-column:4; grid-row:4 / span 3;" onclick="abrirPopupExamen('DI', ' Tema 2 - Interfaces basadas en XML')">DI</div>
                             <div class="examen-bloque SGE" style="grid-column:2; grid-row:3 / span 4;" onclick="abrirPopupExamen('SGE', 'Tema 2 - Implantación de Odoo 19 con Docker')">SGE</div>
                             <div class="examen-bloque IPE-II" style="grid-column:5; grid-row:4 / span 4;" onclick="abrirPopupExamen('IPE-II', 'Convalidada')">IPE-II</div>
 
@@ -672,7 +673,7 @@
             </div>
         </div>
 
-        <script src="script.js"></script>
+        <script src="js/script.js"></script>
 
     </body>
 </html>
