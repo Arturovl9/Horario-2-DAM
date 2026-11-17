@@ -314,3 +314,63 @@ document.addEventListener('keydown', e => {
     cerrarPopup();
     cerrarPopupExamen();
 });
+
+/* =====================================================
+    RELLENAR LAS SEMANAS CON LAS CLASES HABITUALES (Calendario de Exámenes)
+    Solo se AÑADE contenido: coloca un bloque "clase-bloque" en cada hueco libre de cada semana
+    siguiendo el horario de index.html. No toca exámenes, festivos ni boletines (las celdas ya
+    ocupadas se respetan) ni ninguna función de arriba. Las horas consecutivas de la misma
+    asignatura se unen en un solo bloque. Para que un grupo de semanas NO se rellene (por ejemplo
+    Prácticas) basta con ponerle la clase "sin-relleno" a su <div class="semanas-grid">.
+===================================================== */
+
+// Filas = franjas (15:30, 16:25, 17:20, 18:45, 19:40, 20:35) · Columnas = Lunes..Viernes
+const horarioSemanal = [
+    ['AD',  'AD',   'IPGS', 'AD',     'OPT'],
+    ['AD',  'PMDM', 'IPGS', 'PI',     'OPT'],
+    ['SGE', 'PMDM', 'PMDM', 'PI',     'OPT'],
+    ['SGE', 'DI',   'DI',   'IPE-II', 'PSP'],
+    ['SGE', 'DI',   'DI',   'IPE-II', 'PSP'],
+    ['SGE', 'DI',   'DI',   'IPE-II', 'PSP']
+];
+
+const etiquetaClase = { IPGS: 'IP GS', 'IPE-II': 'IPE II' };
+
+function rellenarSemanasConClases() {
+    document.querySelectorAll('.semanas-grid:not(.sin-relleno) .semana-cuerpo').forEach(cuerpo => {
+        if (cuerpo.querySelector('.clase-bloque')) return; // ya rellenada
+
+        // 1) Celdas (franja x día) ya ocupadas por exámenes, festivos o boletines
+        const ocupado = Array.from({ length: 6 }, () => Array(5).fill(false));
+        cuerpo.querySelectorAll('.examen-bloque, .festivo-bloque, .boletin-bloque').forEach(b => {
+            const col = parseInt(b.style.gridColumn, 10) - 2;           // columna 2 = Lunes
+            const m = b.style.gridRow.match(/(\d+)\s*\/\s*span\s*(\d+)/);
+            const ini = (m ? parseInt(m[1], 10) : parseInt(b.style.gridRow, 10)) - 1;
+            const alto = m ? parseInt(m[2], 10) : 1;
+            if (isNaN(col) || isNaN(ini) || col < 0 || col > 4) return;
+            for (let f = ini; f < ini + alto && f < 6; f++) ocupado[f][col] = true;
+        });
+
+        // 2) En cada día se rellenan los huecos libres, uniendo horas seguidas de la misma asignatura
+        for (let col = 0; col < 5; col++) {
+            let f = 0;
+            while (f < 6) {
+                if (ocupado[f][col]) { f++; continue; }
+                const sigla = horarioSemanal[f][col];
+                let fin = f;
+                while (fin + 1 < 6 && !ocupado[fin + 1][col] && horarioSemanal[fin + 1][col] === sigla) fin++;
+
+                const bloque = document.createElement('div');
+                bloque.className = `clase-bloque ${sigla}`;
+                bloque.style.gridColumn = String(col + 2);
+                bloque.style.gridRow = `${f + 1} / span ${fin - f + 1}`;
+                bloque.textContent = etiquetaClase[sigla] || sigla;
+                cuerpo.appendChild(bloque);
+
+                f = fin + 1;
+            }
+        }
+    });
+}
+
+rellenarSemanasConClases();
